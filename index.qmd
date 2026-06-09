@@ -6,6 +6,8 @@ number-sections: false
 
 > **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros). This website is deployed from a [fork](https://github.com/Robinlovelace/ukraine-workshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
 
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/ukraine-workshop?quickstart=1)
+
 This workshop covers **five core transport planning tasks** using open data, with a focus on Ukrainian cities:
 
 | Task | Description |

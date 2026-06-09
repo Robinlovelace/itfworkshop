@@ -11,9 +11,6 @@
             ]
         }
     },
-    "features": {
-        "ghcr.io/devcontainers/features/quarto:1": {}
-    },
     "postCreateCommand": "bash .devcontainer/setup.sh",
     "forwardPorts": [8888]
 }

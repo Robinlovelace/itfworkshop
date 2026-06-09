@@ -4,9 +4,9 @@ number-sections: false
 
 # ITF Transport Data, Statistics and Modelling Workshop
 
-> **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros). This website is deployed from a [fork](https://github.com/Robinlovelace/ukraine-workshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
+> **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros). This website is deployed from a [fork](https://github.com/Robinlovelace/itfworkshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/ukraine-workshop?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/itfworkshop?quickstart=1)
 
 This workshop covers **five core transport planning tasks** using open data, with a focus on Ukrainian cities:
 
@@ -28,4 +28,4 @@ No coding experience needed — all Python code is already written. Just follow 
 ## Source
 
 The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).  
-This Quarto website version is maintained at [github.com/Robinlovelace/ukraine-workshop](https://github.com/Robinlovelace/ukraine-workshop).
+This Quarto website version is maintained at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).

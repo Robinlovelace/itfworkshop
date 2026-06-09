@@ -4,7 +4,7 @@ project:
 
 website:
   title: "ITF Transport Data Workshop — Ukraine"
-  repo-url: "https://github.com/Robinlovelace/ukraine-workshop"
+  repo-url: https://github.com/Robinlovelace/itfworkshop
   repo-actions: [issue]
   page-footer:
     right: "Built with [Quarto](https://quarto.org/)."
@@ -22,7 +22,7 @@ website:
             text: Exercise 1 — Open Data for Transport Planning
           - href: ITF_Workshop_Exercise_2.qmd
             text: Exercise 2 — OD Demand & Network Assignment
-      - href: https://github.com/Robinlovelace/ukraine-workshop
+      - href: https://github.com/Robinlovelace/itfworkshop
         text: Source code
 
 format:

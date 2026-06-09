@@ -29,13 +29,13 @@ Both exercises run in **Google Colab** — no local installation needed.
 
 You can also open this repo in a pre-configured environment with all dependencies installed using GitHub Codespaces or a local dev container:
 
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/ukraine-workshop?quickstart=1)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/itfworkshop?quickstart=1)
 
 ### Rendered website
 
 A Quarto website version of the exercises is available at:
 
-**[robinlovelace.net/ukraine-workshop](https://robinlovelace.net/ukraine-workshop/)**
+**[robinlovelace.net/itfworkshop](https://robinlovelace.net/itfworkshop/)**
 
 ---
 

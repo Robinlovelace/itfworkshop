@@ -1,0 +1,607 @@
+---
+title: 🚦 ITF Transport Data, Statistics and Modelling Workshop — Exercise 1
+jupyter: python3
+---
+
+
+---
+
+
+This exercise walks you through five core transport planning tasks using open data:
+
+| | Task | What you'll do |
+|---|---|---|
+| 📥 | **Extract** | Pull data from OpenStreetMap and WorldPop |
+| 🔍 | **Check** | Assess its quality and relevance |
+| ✂️ | **Manipulate & filter** | Shape the data to your needs |
+| 📐 | **Calculate** | Derive useful performance metrics |
+| 🗺️ | **Visualise & interpret** | Analyse charts and maps |
+
+> 💡 **No coding experience needed.** All the Python code is already written — just follow the step-by-step instructions below.
+
+By the end, you'll have a clearer sense of how open data can generate transport planning insights for Ukraine, and you'll have working code you can adapt for your own future needs.
+
+---
+
+
+
+
+## 📋 Your Assignment
+
+You've been asked to assess transport infrastructure in a Ukrainian city you're not familiar with — and with no official data, or enough budget or time to collect it yourself.
+
+**Your goal:** find the total length of roads, sidewalks and bike lanes in your assigned area, then divide by population to produce a **per-person infrastructure availability metric** you can compare with other places in Ukraine and beyond.
+
+
+---
+
+
+## ▶️ How to Run the Code
+
+The exercise is divided into **tasks**, each containing one or more blocks of code called **cells**.
+
+1. 🖱️ **Hover** over a cell — a **▶** button appears on the left
+2. 👆 **Click ▶** to run it
+3. 👀 **Watch** the output appear below the cell
+4. ✅ **Wait** for the **"Complete"** message before moving on
+
+> ⚠️ Run each cell **once**, in order, and always wait for **"Complete"** before continuing.
+
+If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
+
+---
+
+
+**Let's get started! 🚀**
+
+### 🛠️ Task 1: Setup
+
+Before diving in, here's a quick overview of the two open data sources you'll be using:
+
+| Data Source | What it is | What you'll use it for |
+|---|---|---|
+| 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap) | A free, community-built map of the world — like Wikipedia for maps | Estimating the total length of roads, sidewalks, bike lanes, and bus lanes |
+| 👥 [WorldPop](https://www.worldpop.org/about/) | An open dataset of population estimates at high spatial resolution | Estimating the population of your assigned area |
+
+To work with this data, you first need to install a few Python **libraries** — ready-made toolkits written by other developers that handle the heavy lifting for you, so you don't have to write everything from scratch.
+
+> ⏱️ **This step may take 1–2 minutes.** You may see a lot of text appear in the output box — that's normal! Just wait for the **"Complete"** message before moving on.
+
+▶️ **Run the cell below to install the libraries.**
+
+```{python}
+#| collapsed: true
+!pip install -q osmnx worldpoppy --no-color
+
+print("Complete")
+```
+
+### 🏙️ Task 2: Choose a City
+
+Pick a city from the list below to analyse. Each group should try to choose **different cities** so you can compare results at the end!
+
+| City |
+| --- |
+| Chernihiv, Chernihiv Oblast |
+| Dnipro |
+| Donetsk, Donetsk Oblast |
+| Kharkiv |
+| Kryvyi Rih |
+| Kyiv |
+| Luhansk, Luhansk Oblast |
+| Lviv |
+| Mariupol |
+| Mykolaiv |
+| Odesa |
+| Poltava, Poltava Oblast |
+| Vinnytsia, Vinnytsia Oblast |
+| Zaporizhzhia |
+
+To select your city, find the line that reads `city = "YOUR CITY HERE"` in the cell below and replace `YOUR CITY HERE` with your chosen city name — **spelled and capitalised exactly as shown in the table above**.
+
+For example, to select Dnipro or Donetsk:
+
+```python
+city = "Dnipro"
+```
+
+```python
+city = "Donetsk, Donetsk Oblast"
+```
+
+▶️ **Once you've made your edit, run the cell.**
+
+```{python}
+city = "YOUR CITY HERE"
+print("You have selected:", city)
+print("Complete")
+```
+
+### 🗂️ Task 3: Import the Data
+
+Now that you've chosen your city, this task downloads two datasets needed for your analysis. Here's what happens when you run the cell:
+
+1. **Look up your city's boundary** — the code finds the official administrative boundary for your chosen city, which is used to clip both datasets to the right area
+2. **Download the transport network** — all roads, footpaths, bike lanes, and other transport links within that boundary are fetched from OpenStreetMap
+3. **Download population estimates** — a 100m-resolution population grid covering your city is fetched from WorldPop, which will later be used to calculate per-person infrastructure figures
+
+> ⏱️ **This step may take 3-4 minutes** depending on the size of your city. You'll see some output appear as the data downloads — this is normal. Wait for the **"Complete"** message before moving on.
+
+▶️ **Run the cell below to import the data.**
+
+```{python}
+#| collapsed: true
+# Import the libraries installed in Task 1 and other useful functions
+import osmnx as ox       # For downloading and working with OpenStreetMap data
+import worldpoppy as wp  # For downloading and working with WorldPop population data
+import geopandas as gpd
+from shapely.geometry import box
+
+# Step 1: Get the geographic boundary of the chosen city.
+# This boundary is used to clip both the OSM and population data to the right area
+gdf = ox.geocoder.geocode_to_gdf(city)
+polygon = gdf.geometry.iloc[0]
+west, south, east, north = polygon.bounds
+bbox = (west, south, east, north)
+
+# Step 2: Download the transport network from OpenStreetMap
+ox.settings.useful_tags_way = ["highway", "cycleway", "footway", "sidewalk", "busway", "length"]
+osm_data = ox.graph_from_bbox(bbox, custom_filter='["highway"]')
+
+# Step 3: Download population estimates from WorldPop for the city boundary
+bbox_geom = box(west, south, east, north) # Convert to GeoDataFrame
+bbox_gdf = gpd.GeoDataFrame( geometry=[bbox_geom], crs=gdf.crs)
+pop_data = wp.wp_raster(product_name='pop_g2_r25a', aoi=bbox_gdf, years=2024)
+
+print("Complete")
+```
+
+### 🔍 Task 4: Review the Data
+
+Before doing any analysis, it's good practice to visually inspect your data to check that it looks correct and complete. This task produces two maps of your city:
+
+1. **Transport network map** — shows all the roads, footpaths, and other transport links downloaded from OpenStreetMap. Check that the network looks complete and matches your expectations for the city.
+2. **Population map** — shows the distribution of people across your city. Brighter areas have higher population density. The title shows the total estimated population.
+
+If anything looks wrong or unexpected — for example, if the network only covers part of the city, or the population total seems way off — let one of the facilitators know before continuing.
+
+> ⚠️ **Run the two cells below one at a time**, waiting for each map to appear before running the next.
+
+```{python}
+# Cell 1: Map the road transport network from OpenStreetMap
+import matplotlib.pyplot as plt
+
+fig, ax = ox.plot.plot_graph(
+    osm_data,
+    show=False,
+    close=False,
+    bgcolor="#111111",    # Dark background to make the network stand out
+    edge_color="#ffcb00", # Colour of the roads and paths
+    edge_linewidth=0.3,   # Line thickness — keep thin for dense networks
+    node_size=0,          # Hide intersections to keep the map clean
+)
+
+# Overlay the city boundary as a subtle outline
+gdf.plot(ax=ax, fc="none", ec="#ffffff", lw=0.8, alpha=0.5, zorder=2)
+
+# Add a title
+ax.set_title(f"{city}: Transport Network", color="black", fontsize=14, pad=12)
+plt.show()
+```
+
+```{python}
+# Cell 2: Map the population distribution from WorldPop
+import numpy as np
+from matplotlib.colors import LogNorm
+
+# Plot the population data — let worldpoppy handle the projection and axes
+mesh = (pop_data.fillna(0) + 1).plot(
+    norm=LogNorm(),
+    cmap='inferno',
+    size=6,
+    cbar_kwargs={'label': 'Population per km²', 'shrink': 0.6, 'pad': 0.02}
+)
+
+# Retrieve the axes and colour bar from the QuadMesh object
+ax = mesh.axes
+cbar = mesh.colorbar
+
+# Correct the aspect ratio for latitude distortion
+lat_center = (pop_data.y.min() + pop_data.y.max()) / 2
+ax.set_aspect(1 / np.cos(np.radians(float(lat_center))))
+
+# Style the colour bar
+cbar.set_label("Population per km²", color="white", fontsize=10)
+cbar.ax.yaxis.set_tick_params(color="white")
+plt.setp(cbar.ax.yaxis.get_ticklabels(), color="white")
+
+# Style the title, background and axis labels
+ax.set_title(
+    f"{city} (2024): {pop_data.sum() / 1e6:.1f}M People",
+    color="white", fontsize=14, pad=12
+)
+ax.set_facecolor("#111111")
+ax.figure.patch.set_facecolor("#111111")
+ax.set_xlabel("Longitude", color="white", fontsize=9)
+ax.set_ylabel("Latitude", color="white", fontsize=9)
+ax.tick_params(colors="white")
+plt.show()
+```
+
+### 🔎 Task 5: Inspect and Evaluate the Data
+
+Before doing any calculations, it's important to understand the structure of your data and check for any potential issues. This is a critical step in any data analysis — even the best open data sources can contain errors, gaps, or columns that are unclear or irrelevant.
+
+This task doesn't require you to write any code. Instead, focus on reading the outputs carefully and thinking critically about what you see.
+
+▶️ **Run Cell 1 and answer the following questions before moving on to Cell 2:**
+
+1. **Look through the column names.** Identify at least 2 columns whose purpose is unclear to you. Can you make an educated guess at what they mean?
+2. **Look at the values in the first 5 rows.** Are there any columns that appear to contain mostly empty or missing values? Do you think those columns will be important for your analysis?
+
+
+▶️ **Then run Cell 2 and answer the following questions:**
+
+3. **Compare the total estimated population to what you know about your city.** Does it seem reasonable? If it seems too high or too low, what might explain that?
+4. **Look at the minimum and maximum population density values.** How large is the gap between them? What does that tell you about how evenly population is distributed across the city?
+
+```{python}
+# Cell 1: Inspect the structure of the OpenStreetMap road network data
+
+# Convert the OSM network to a table of road segments (edges)
+_, edges = ox.graph_to_gdfs(osm_data)
+
+# Show the first few rows and all columns
+print(f"Total number of road segments: {len(edges)}")
+print(f"Number of columns: {len(edges.columns)}")
+print("\nColumn names and data types:")
+print(edges.dtypes)
+print("\nFirst 5 rows:")
+edges.head()
+```
+
+```{python}
+# Cell 2: Inspect the structure of the WorldPop population data
+
+total_cells = pop_data.sizes['y'] * pop_data.sizes['x']
+missing_cells = pop_data.isnull().sum().item()
+zero_cells = (pop_data == 0).sum().item()
+
+# Flatten the raster to a 1D array for percentile calculations, ignoring missing values
+pop_values = pop_data.values.flatten()
+pop_values = pop_values[~np.isnan(pop_values)]
+
+# Calculate the population share of the top 10% most dense cells
+top10_threshold = np.percentile(pop_values, 90)
+top10_population = pop_values[pop_values >= top10_threshold].sum()
+top10_share = top10_population / pop_values.sum() * 100
+
+print(f"Grid dimensions: {pop_data.sizes['y']} rows x {pop_data.sizes['x']} columns")
+print(f"Total cells: {pop_data.sizes['y'] * pop_data.sizes['x']:,}")
+print(f"Total estimated population: {pop_data.sum().item() / 1e6:.2f} million")
+print(f"Cells with zero population: {missing_cells + zero_cells:,} cells ({(missing_cells + zero_cells) / total_cells * 100:.1f}% of total)")
+print(f"\nPopulation per km² statistics:")
+print(f"  Minimum: {pop_data.min().item():.1f}")
+print(f"  Maximum: {pop_data.max().item():.1f}")
+print(f"  Mean:    {pop_data.mean().item():.1f}")
+print(f"  Median:  {float(np.median(pop_values)):.1f}")
+print(f"\nConcentration: the top 10% most dense cells contain {top10_share:.1f}% of the total population")
+```
+
+### 📐 Task 6: Run the Calculations
+
+Now that you've reviewed and validated your data, it's time to calculate the key metrics for your city. Here's what this task does:
+
+1. **Reprojects the data** to a metric coordinate system (metres instead of degrees) so that distances are calculated accurately
+2. **Calculates the total length** of roads, sidewalks, bike lanes, and bus lanes in kilometres
+3. **Estimates the total population** of the city from the WorldPop raster
+4. **Calculates infrastructure availability per person** — the total length of each infrastructure type divided by the total population
+
+The results will be printed as a summary table, followed by a chart comparing infrastructure availability across the different types.
+
+> ℹ️ The per-person figures will be in **metres per person**, which is a more readable unit than kilometres per person for most infrastructure types.
+
+> ⚠️ **A note on data quality:** these results are derived from OpenStreetMap and are subject to limitations  — incomplete tagging, inconsistent mapping conventions, and varying levels of community contribution across cities. Treat them as indicative rather than authoritative.
+
+▶️ **Run the cell below to calculate the metrics.**
+
+
+
+
+```{python}
+import pandas as pd
+import matplotlib.ticker as ticker
+
+# ── Step 1: Prepare and filter data ────────────────────────────────────────
+
+# Convert graph to GeoDataFrame and reproject to a metric CRS for accurate distance calculations
+edges = ox.graph_to_gdfs(osm_data, nodes=False)
+edges = edges.to_crs("EPSG:32636")
+
+# Clean highway field- some OSM edges contain multiple highway tags stored as lists
+edges["highway_clean"] = edges["highway"].apply( lambda x: x[0] if isinstance(x, list) else x )
+
+# ── Step 2: Define infrastructure types ────────────────────────────────────
+foot_col = ( edges["foot"]
+    if "foot" in edges.columns
+    else pd.Series(index=edges.index, dtype="object") )
+
+sidewalk_col = ( edges["sidewalk"]
+    if "sidewalk" in edges.columns
+    else pd.Series(index=edges.index, dtype="object") )
+
+cycleway_col = ( edges["cycleway"]
+    if "cycleway" in edges.columns
+    else pd.Series(index=edges.index, dtype="object") )
+
+bicycle_col = ( edges["bicycle"]
+    if "bicycle" in edges.columns
+    else pd.Series(index=edges.index, dtype="object") )
+
+masks = {
+    # All mapped transport infrastructure
+    "Roads": edges["highway_clean"].notna(),
+
+    # Walking infrastructure
+    "Sidewalks": ( sidewalk_col.notna() | foot_col.eq("yes")
+            | edges["highway_clean"].isin(["footway", "pedestrian", "path"]) ),
+
+    # Cycling infrastructure
+    "Bike Lanes":
+        ( cycleway_col.notna() | bicycle_col.eq("yes")
+            | edges["highway_clean"].isin(["cycleway"]) ),
+
+    # Bus-related infrastructure
+    "Bus Lanes": ( edges.filter(like="bus").notna().any(axis=1) )
+}
+
+# ── Step 3: Calculate lengths ────────────────────────────────────────
+lengths_km = {
+    name: edges.loc[mask, "length"].sum() / 1000
+    for name, mask in masks.items() }
+
+# ── Step 4: Calculate infrastructure availability per person ─────────────────
+total_population = pop_data.sum().item()
+metres_per_person = {k: (v * 1000) / total_population for k, v in lengths_km.items()}
+
+# ── Step 5: Print summary table ───────────────────────────────────────────────
+results = pd.DataFrame({
+    'Total Length (km)':      lengths_km,
+    'Population':             {k: f"{total_population:,.0f}" for k in lengths_km},
+    'Metres per Person':      {k: round(v, 2) for k, v in metres_per_person.items()}
+})
+
+print(f"\n{'─' * 55}")
+print(f"  Transport Infrastructure Summary: {city}")
+print(f"{'─' * 55}")
+print(f"  Total population: {total_population:,.0f}")
+print(f"{'─' * 55}\n")
+print(results.to_string())
+print(f"\n{'─' * 55}")
+
+# ── Step 6: Plot infrastructure availability per person ───────────────────────
+fig, ax = plt.subplots(figsize=(8, 5))
+fig.patch.set_facecolor("#111111")
+ax.set_facecolor("#111111")
+
+colors = ['#ffcb00', '#ff8800', '#00cfff', '#00e676']
+bars = ax.bar(
+    list(metres_per_person.keys()),
+    list(metres_per_person.values()),
+    color=colors, width=0.5, zorder=2 )
+
+# Add value labels on top of each bar
+for bar in bars:
+    ax.text(
+        bar.get_x() + bar.get_width() / 2,
+        bar.get_height() + 0.01 * max(metres_per_person.values()),
+        f"{bar.get_height():.2f}m",
+        ha='center', va='bottom', color='white', fontsize=10 )
+
+# Style the chart
+ax.set_title(f"{city}: Infrastructure availability per person", color='white', fontsize=14, pad=12)
+ax.set_ylabel("Metres per Person", color='white', fontsize=11)
+ax.tick_params(colors='white')
+ax.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f'))
+ax.grid(axis='y', color='#444444', linestyle='--', linewidth=0.7, zorder=1)
+for spine in ax.spines.values():
+    spine.set_edgecolor('#444444')
+plt.tight_layout()
+plt.show()
+
+print("Complete")
+```
+
+### 📊 Task 7: Interpret and Evaluate the Results
+
+You've now calculated infrastructure availability per person for your assigned city. But what do these numbers actually mean? This task asks you to think critically about the results and consider what they tell us — and don't tell us — about transport needs.
+
+There is no code to run in this task. Instead, read through the questions below and discuss them with your group.
+
+---
+
+#### 🔍 Part 1: Sense-check your results
+
+Before drawing any conclusions, it's worth asking whether your numbers are plausible.
+
+1. **How complete do you think the OpenStreetMap data is for your city?** Recall what you observed in Tasks 4 and 5. Are there infrastructure types that seem underrepresented — for example, very few bike lanes or bus lanes?
+2. **The WorldPop population estimate may differ from official census figures.** Does the figure produced by the tool seem reasonable? If it's higher or lower than expected, how might that affect your per-person metrics?
+
+---
+
+#### 🌍 Part 2: Compare with other cities
+
+To put your results in context, it helps to compare them with cities in countries at a similar stage of development. The table below provides some reference figures for comparable cities in Poland and Romania, derived from OpenStreetMap data using the same methodology as this exercise.
+
+
+| City | Country | Population | Roads (m/person) | Sidewalks (m/person) | Bike Lanes (m/person) |
+|---|---|---|---|---|---|
+| Warsaw | Poland | ~2,230,000 | 20.75 | 9.96 | 0.69 |
+| Kraków | Poland | ~1,000,000 | 23.63 | 9.71 | 0.34 |
+| Bucharest | Romania | ~2,000,000 | 7.72 | 1.63 | 0.09 |
+| Cluj-Napoca | Romania | ~320,000 | 15.63 | 6.90 | 0.40 |
+
+
+3. **How does your city compare to the benchmark cities?** Is it above or below average for each infrastructure type?
+4. **What factors might explain differences between cities** — for example, city size, urban density, historical development patterns, or investment levels?
+
+---
+
+#### 🚦 Part 3: Transport planning implications
+
+5. **If you were advising the city government, which infrastructure type would you prioritise investing in first?** What additional data would you want before making that recommendation?
+6. **How might the ongoing conflict in Ukraine affect the reliability of both the OpenStreetMap data and the WorldPop population estimates** for the cities in this exercise?
+
+## 🗺️ Task 8: Generate Maps of the Data
+
+So far, you've calculated summary statistics for your city's transport infrastructure. However, averages can hide important spatial differences. In this task, you'll create maps to explore:
+
+1. **Where transport infrastructure is concentrated**
+2. **How infrastructure relates to population density**
+3. **Whether some parts of the city appear underserved**
+
+The code below will:
+
+* Convert the OpenStreetMap network into separate infrastructure layers
+* Plot roads, sidewalks, bike lanes, and bus lanes
+* Overlay the WorldPop population data
+* Produce a combined map showing transport infrastructure alongside population distribution
+
+> ⚠️ Because the network data can be large, the plotting step may take a minute or two for larger cities.
+
+▶️ **Run the cell below to generate the maps.**
+
+```{python}
+from matplotlib.colors import LogNorm
+
+# Convert graph to GeoDataFrame
+edges = ox.graph_to_gdfs(osm_data, nodes=False)
+
+# Reproject to Web Mercator for plotting
+edges_plot = edges.to_crs("EPSG:3857")
+pop_plot = pop_data.rio.reproject("EPSG:3857")
+
+# Clean highway field
+edges_plot["highway_clean"] = edges_plot["highway"].apply(
+    lambda x: x[0] if isinstance(x, list) else x )
+
+# Define infrastructure layers for mapping
+layers = {
+    "Roads": edges_plot[edges_plot["highway_clean"].notna()],
+    "Sidewalks": edges_plot[(
+            sidewalk_col.notna()
+            | foot_col.eq("yes")
+            | edges_plot["highway_clean"].isin(["footway", "pedestrian", "path"])
+        )],
+    "Bike Lanes": edges_plot[(
+            cycleway_col.notna()
+            | bicycle_col.eq("yes")
+            | edges_plot["highway_clean"].isin(["cycleway"])
+        )],
+    "Bus Infrastructure": edges_plot[edges_plot.filter(like="bus").notna().any(axis=1)]
+}
+
+# ── Plot configuration ─────────────────────────────────────────────────────
+
+fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+axes = axes.flatten()
+
+# Use high-contrast infrastructure colors
+colors_dict = {
+    "Roads": "#d73027",               # red
+    "Sidewalks": "#4575b4",           # blue
+    "Bike Lanes": "#1a9850",          # green
+    "Bus Infrastructure": "#984ea3"  # purple
+}
+
+for ax, (name, layer) in zip(axes, layers.items()):
+    # Plot population raster in grayscale
+    pop_plot.plot(
+        ax=ax,
+        cmap="Greys",
+        norm=LogNorm(vmin=1, vmax=float(pop_plot.max())),
+        alpha=0.45,
+        add_colorbar=False
+    )
+    # Plot infrastructure layer
+    if len(layer) > 0:
+        layer.plot(
+            ax=ax,
+            linewidth=0.8,
+            color=colors_dict[name],
+            alpha=0.95
+        )
+    # Styling
+    ax.set_title(f"{city}: {name}", fontsize=12)
+    ax.set_axis_off()
+
+plt.tight_layout()
+plt.show()
+print("Complete")
+```
+
+## 📊 Task 9: Interpret and Evaluate the Maps
+
+The maps you've generated provide a more detailed picture of transport infrastructure across the city. Rather than focusing only on city-wide averages, let's look for areas where infrastructure appears well provided or underserved.
+
+There is no code to run in this task. Instead, discuss the questions below with your group.
+
+---
+
+### 🔍 Part 1: Identify spatial patterns
+
+1. **Do different infrastructure types follow similar patterns?** For example, are bike lanes concentrated in the same areas as sidewalks or bus infrastructure?
+
+2. **Are there areas with high population density but relatively little infrastructure?** What challenges might residents in these areas face?
+
+---
+
+### 🌍 Part 2: Planning implications
+
+3. **If you were preparing a transport investment strategy for this city, which areas would you prioritise for improvement? Why?**
+
+4. **What additional datasets would help you make a stronger planning recommendation?** Examples might include:
+
+   * Traffic volumes
+   * Public transport ridership
+   * Road safety data
+   * Air pollution measurements
+   * Employment or income data
+   * Travel survey data
+
+5. **How could maps like these support real-world transport planning decisions?** Consider communication with policymakers, prioritisation of investments, or public engagement.
+
+## 🗺️ Task 10: Share Your Results
+
+You've completed the exercise — now let's see what other cities look like across the group!
+
+**Follow these three steps to share your map and reflections with the group:**
+
+---
+
+### Step 1 — Copy your infrastructure map
+Right-click on the map output in your notebook and select **"Save image as..."** or **"Copy image"** — you'll use this in the next step.
+
+---
+
+### Step 2 — Open the shared board
+Click the link below to open the group Padlet — no account or login needed:
+
+### 👉 [Open the shared board](https://padlet.com/nicholascaros/itf-transport-workshop-exercise-1-cvubx8j9w9vgn6zm)
+
+---
+
+### Step 3 — Post your results
+1. Click the **+** button on the board
+2. **Add a title** — the name of your city
+3. **Attach your map** using the image icon, or paste it with `Ctrl+V` / `Cmd+V`
+4. In the text area, add **2–3 bullet points** reflecting on your results, for example:
+   - Are there areas with high population density but relatively little infrastructure?
+   - How does the balance between roads, sidewalks and bike lanes compare to what you'd expect?
+   - If you were prioritising investment in this city, where would you start?
+5. Click **Publish** to share with the group
+
+---
+
+> 💡 Once everyone has posted, take a few minutes to look at the other cities on the board. How do infrastructure patterns differ across Ukrainian cities? What might explain those differences?
+

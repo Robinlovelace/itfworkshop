@@ -1,0 +1,37 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "ITF Transport Data Workshop — Ukraine"
+  repo-url: "https://github.com/Robinlovelace/ukraine-workshop"
+  repo-actions: [issue]
+  page-footer:
+    right: "Built with [Quarto](https://quarto.org/)."
+    left: "Materials for the ITF Transport Data, Statistics and Modelling Workshop."
+  sidebar:
+    background: primary
+    pinned: true
+    style: docked
+    contents:
+      - href: index.qmd
+        text: Home
+      - section: "Exercises"
+        contents:
+          - href: ITF_Workshop_Exercise_1.qmd
+            text: Exercise 1 — Open Data for Transport Planning
+          - href: ITF_Workshop_Exercise_2.qmd
+            text: Exercise 2 — OD Demand & Network Assignment
+      - href: https://github.com/Robinlovelace/ukraine-workshop
+        text: Source code
+
+format:
+  html:
+    theme: lux
+    toc: true
+    number-sections: true
+
+execute:
+  freeze: true
+  message: false
+  warning: false

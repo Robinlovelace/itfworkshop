@@ -1,0 +1,854 @@
+---
+title: 🚦 ITF Transport Data, Statistics and Modelling Workshop — Exercise 2
+jupyter: python3
+---
+
+
+---
+
+In this exercise, you will build an **origin-destination (OD) demand matrix** for a Ukrainian city of your choice, then assign that demand to the road network to estimate traffic flows on individual streets.
+
+By the end, you will have quantitative evidence you can use to support real transport planning decisions — and working code you can adapt for your own future needs.
+
+The emphasis in this exercise is on **understanding, interpreting, and applying results** — not on coding. To keep things focused, the Python code in this exercise is hidden.
+
+Before each step, a short explanation describes what the code is doing and why. You don't need to read or understand the code itself — just follow the instructions, run each cell, and focus on what the outputs tell you.
+
+
+| | Task | What you'll do |
+|---|---|---|
+| 📥 | **Extract** | Pull road network and spatial data from OpenStreetMap |
+| 🔢 | **Estimate demand** | Build an origin-destination matrix of travel demand |
+| ✂️ | **Assign flows** | Distribute that demand across the city street network |
+| 📐 | **Calculate** | Derive useful performance indicators |
+| 🗺️ | **Visualise & interpret** | Map results and develop evidence-based policy recommendations |
+
+> 💡 **No coding experience needed.** Just like before, all of the Python code is already written — just follow the step-by-step instructions and run each cell in order.
+
+---
+
+
+## 📋 Your Assignment
+
+Your city manager was impressed with your work in Exercise 1 and is back with a new request. To support upcoming budget decisions, they need evidence on where traffic is highest across the city — but as before, there is no time or budget to collect survey data.
+
+Your task is to use open-source tools to **estimate travel demand and assign it to the road network**, producing a picture of traffic flows across the city. You will then interpret those results to develop a short set of **evidence-based policy recommendations**.
+
+**By the end of this exercise, your group will produce:**
+- A set of maps showing estimated traffic volumes on the city street network
+- A short briefing (3–5 bullet points) identifying priority streets or corridors for investment, with supporting evidence from your analysis
+
+> 🌍 Each group should work with the **same Ukrainian city** they chose in Exercise 1.
+
+---
+
+## ▶️ Reminder: How to Run the Code
+
+The exercise is divided into **tasks**, each containing one or more blocks of code called **cells**.
+
+1. 🖱️ **Hover** over a cell — a **▶** button appears on the left
+2. 👆 **Click ▶** to run it
+3. 👀 **Watch** the output appear below the cell
+4. ✅ **Wait** for the **"Complete"** message before moving on
+
+> ⚠️ Run each cell **once**, in order, and always wait for **"Complete"** before continuing.
+
+If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
+
+---
+
+
+**Let's get started! 🚀**
+
+### Task 1: Setup
+
+To complete your assignment, you decide to use OpenStreetMap data to estimate the total amount of transport infrastructure, and WorldPop data to estimate the population of your assigned city.
+
+You can find more information about each data source here: OpenStreetMap, WorldPop.
+
+In order to work with this data, you will need to install a few special Python "libraries", which contain code written by other people to make it easier to manipulate transport and population data.
+
+Hover over the cell below and click "Run" to install the special libraries.
+
+```{python}
+#| collapsed: true
+!pip install -q grid2demand osm2gmns osmnx contextily
+```
+
+### 🏙️ Task 2: Choose a City
+
+Please choose the same city you used last time. Here's a reminder of the correct names to use:
+
+| City |
+| --- |
+| Chernihiv, Chernihiv Oblast |
+| Dnipro |
+| Donetsk, Donetsk Oblast |
+| Kharkiv |
+| Kryvyi Rih |
+| Kyiv |
+| Luhansk, Luhansk Oblast |
+| Lviv |
+| Mariupol |
+| Mykolaiv |
+| Odesa |
+| Poltava, Poltava Oblast |
+| Vinnytsia, Vinnytsia Oblast |
+| Zaporizhzhia |
+
+To select your city, find the line that reads `city = "YOUR CITY HERE"` in the cell below and replace `YOUR CITY HERE` with your chosen city name — **spelled and capitalised exactly as shown in the table above**.
+
+For example, to select Dnipro or Donetsk:
+
+```python
+city = "Dnipro"
+```
+
+```python
+city = "Donetsk, Donetsk Oblast"
+```
+
+▶️ **Once you've made your edit, run the cell.**
+
+```{python}
+city = "YOUR CITY HERE"
+print("You have selected:", city)
+print("Complete")
+```
+
+## Task 1 — Estimate an Origin-Destination (OD) Matrix
+
+An **origin-destination (OD) matrix** describes how many trips are made between every pair of zones in a city. It is a fundamental input to any traffic model.
+
+In this task, you will:
+- Download the road network and points of interest (POIs) for your city from OpenStreetMap
+- Divide the city into a grid of zones
+- Use a **gravity model** to estimate how many trips occur between each pair of zones
+
+This process uses three open-source libraries working together in sequence:
+
+| Library | Role |
+|---|---|
+| `osmnx` | Downloads road network and POIs from OpenStreetMap |
+| `osm2gmns` | Converts the network into GMNS format (a standard used in transport modelling) |
+| `grid2demand` | Creates zones and estimates OD demand using a gravity model |
+
+> ⚠️ **These cells may take 1–2 minutes to run.** This is normal — the tools are downloading and processing real city data.
+
+There is quite a bit of code involved in this process, so it is broken up into four cells. You can run each cell in order and do not have to make any changes.
+
+### 📦 Cell 1: Configuration
+
+Before any analysis can begin, this cell loads all the software libraries needed for this task. It also sets the key parameters for the analysis: the area to study (a 5 km radius around the city centre), how finely to divide it (a 12×12 grid of zones), and where to save the results.
+
+```{python}
+#| cellView: form
+# @title
+### ⚙️ Cell 1 — Configuration
+
+import os
+import tempfile
+import geopandas as gpd
+import pandas as pd
+import numpy as np
+import osmnx as ox
+import osm2gmns as og
+import grid2demand as gd
+
+
+# Radius around the city centre to include (metres)
+RADIUS_M = 5000
+
+# Number of grid cells in each direction (total zones = X × Y)
+NUM_X_BLOCKS = 12
+NUM_Y_BLOCKS = 12
+
+# Where to save outputs
+OUTPUT_DIR = "/content/grid2demand_output"
+```
+
+### 🌍 Cell 2: Download data
+
+This cell downloads real data from OpenStreetMap for your chosen city. It starts by pinpointing the city centre coordinates, then downloads the driveable road network within 5 km. Finally, it collects points of interest (POIs) — shops, offices, amenities, buildings and more — which will be used in the next steps to estimate how much travel activity each part of the city generates.
+
+
+```{python}
+#| cellView: form
+# @title
+### 🌍 Cell 2 — Download road network and POIs
+
+# -------------------------------------------------------
+# STEP 1 — Find city centre
+# -------------------------------------------------------
+print(f"Locating city centre for: {city}")
+
+city_boundary = ox.geocode_to_gdf(city)
+city_boundary_proj = city_boundary.to_crs(city_boundary.estimate_utm_crs())
+city_centre_proj = city_boundary_proj.geometry.centroid.iloc[0]
+city_centre = (
+    gpd.GeoSeries([city_centre_proj], crs=city_boundary_proj.crs)
+    .to_crs(city_boundary.crs)
+    .iloc[0]
+)
+latitude  = city_centre.y
+longitude = city_centre.x
+print(f"City centre found: {latitude:.4f}°N, {longitude:.4f}°E")
+
+# -------------------------------------------------------
+# STEP 2 — Download road network
+# -------------------------------------------------------
+print("Downloading road network...")
+G = ox.graph_from_point(
+    (latitude, longitude),
+    dist=RADIUS_M,
+    network_type="drive",
+    simplify=False
+)
+print("Road network downloaded.")
+
+# -------------------------------------------------------
+# STEP 3 — Download points of interest (POIs)
+# -------------------------------------------------------
+print("Downloading points of interest...")
+poi_gdf = ox.features_from_point(
+    (latitude, longitude),
+    tags={"amenity": True, "shop": True, "leisure": True,
+          "tourism": True, "building": True, "office": True, "landuse": True},
+    dist=RADIUS_M
+)
+poi_gdf = poi_gdf.reset_index(drop=True)
+poi_gdf = poi_gdf[poi_gdf.geometry.notnull()].copy()
+print(f"Downloaded {len(poi_gdf):,} POIs.")
+```
+
+### 🔧 Cell 3: Convert network and set up zones
+
+Raw map data isn't immediately usable by a transport model — it needs to be cleaned and restructured first. This cell converts the road network into a standard transport format, merges it with the POI data, and then divides the study area into a 12×12 grid of analysis zones. These zones are the spatial building blocks of the OD matrix.
+
+
+```{python}
+#| cellView: form
+# @title
+### 🔧 Cell 3 — Convert network and set up zones
+
+# -------------------------------------------------------
+# STEP 4 — Export network to OSM XML format
+# -------------------------------------------------------
+osm_file = "study_area.osm"
+print("Exporting network to OSM file...")
+ox.save_graph_xml(G, filepath=osm_file)
+
+# -------------------------------------------------------
+# STEP 5 — Convert to GMNS using osm2gmns
+# Note: POI extraction is disabled due to a known bug in
+# osm2gmns; we inject our own POI data in the next step.
+# -------------------------------------------------------
+print("Converting to GMNS format...")
+network = og.getNetFromFile(osm_file, POI=False)
+gmns_temp_dir = tempfile.mkdtemp()
+og.outputNetToCSV(network, output_folder=gmns_temp_dir)
+print("GMNS network created.")
+
+# -------------------------------------------------------
+# STEP 6 — Build and inject POI file
+# -------------------------------------------------------
+geoms   = poi_gdf.geometry
+n       = len(poi_gdf)
+poi_df  = pd.DataFrame({
+    "poi_id":   np.arange(n),
+    "geometry": [g.wkt          for g in geoms],
+    "centroid": [g.centroid.wkt for g in geoms],
+    "area":     [g.area         for g in geoms],
+    "building": poi_gdf["building"].fillna("").astype(str) if "building" in poi_gdf.columns else "",
+    "amenity":  poi_gdf["amenity"].fillna("").astype(str)  if "amenity"  in poi_gdf.columns else "",
+})[["poi_id", "building", "amenity", "centroid", "area", "geometry"]]
+
+poi_df.to_csv(os.path.join(gmns_temp_dir, "poi.csv"), index=False)
+print(f"POI file written ({n:,} features).")
+
+# -------------------------------------------------------
+# STEP 7 — Load grid2demand and create zones
+# -------------------------------------------------------
+print("Loading grid2demand...")
+g2d = gd.GRID2DEMAND(input_dir=gmns_temp_dir, verbose=True)
+
+# Compatibility fix for grid2demand API changes — no action needed
+if not hasattr(g2d, "map_mapping_between_zone_and_node_poi"):
+    g2d.map_mapping_between_zone_and_node_poi = g2d.map_zone_node_poi
+
+g2d.load_network()
+g2d.net2grid(num_x_blocks=NUM_X_BLOCKS, num_y_blocks=NUM_Y_BLOCKS)
+g2d.taz2zone()
+print("Zones created.")
+```
+
+### 📊 Cell 4 — Run the gravity model and save results
+
+This is where the demand estimation happens. The cell uses a gravity model — one of the most established methods in transport planning — to estimate how many trips occur between every pair of zones. The logic mirrors real-world behaviour: more trips are expected between zones with lots of activity that are close together, and fewer between zones that are distant or have little going on. The full OD matrix is saved to your output folder, and a summary is shown below.
+
+```{python}
+#| collapsed: true
+#| cellView: form
+# @title
+### 📊 Cell 4 — Run the gravity model and save results
+
+# -------------------------------------------------------
+# STEP 8 — Run gravity model
+# -------------------------------------------------------
+print("Running gravity model...")
+g2d.map_zone_node_poi()
+g2d.calc_zone_od_distance()
+demand_df = g2d.run_gravity_model()
+print("Gravity model complete.")
+
+# -------------------------------------------------------
+# STEP 9 — Save results
+# -------------------------------------------------------
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+g2d.save_results_to_csv(
+    output_dir=OUTPUT_DIR,
+    demand=True, zone=True, node=True, poi=True,
+    demand_od_matrix=True, overwrite_file=True
+)
+print(f"Results saved to: {OUTPUT_DIR}")
+
+# -------------------------------------------------------
+# STEP 10 — Preview OD matrix
+# -------------------------------------------------------
+demand_matrix = pd.read_csv(os.path.join(OUTPUT_DIR, "demand.csv"))
+print(f"\nOD matrix shape: {demand_matrix.shape[0]:,} rows × {demand_matrix.shape[1]} columns")
+
+# -------------------------------------------------------
+# STEP 11 — Display summary
+# -------------------------------------------------------
+total_trips = demand_matrix["volume"].sum()
+top_pairs = (
+    demand_matrix
+    .sort_values("volume", ascending=False)
+    .head(5)
+    .reset_index(drop=True)
+)
+top_pairs.index += 1  # Start ranking from 1
+
+print("=" * 45)
+print("         OD MATRIX — SUMMARY")
+print("=" * 45)
+print(f"  {'Total zones:':<28} {NUM_X_BLOCKS * NUM_Y_BLOCKS:>6,}")
+print(f"  {'OD pairs (rows in matrix):':<28} {len(demand_matrix):>6,}")
+print(f"  {'Total estimated trips:':<28} {total_trips:>6,.0f}")
+print("=" * 45)
+print("\n  TOP 5 BUSIEST ORIGIN-DESTINATION PAIRS\n")
+display(
+    top_pairs[["o_zone_id", "d_zone_id", "volume"]]
+    .rename(columns={"o_zone_id": "Origin Zone", "d_zone_id": "Destination Zone", "volume": "Est. Trips"})
+    .style.format({"Est. Trips": "{:,.0f}"})
+    .set_caption("Ranked by estimated trip volume")
+)
+print("\nFull OD matrix preview (first 10 rows):\n")
+display(
+    demand_matrix.head(10)
+    .style.format({"volume": "{:,.0f}"})
+)
+print(f"\n✅ Complete — OD matrix saved to: {OUTPUT_DIR}")
+```
+
+## Task 2 — Visualise the OD Matrix
+
+Before moving on, it is worth taking a moment to inspect the results to ensure that they look reasonable.
+
+In this task, you will visualise the estimated OD demand as **desire lines** — straight lines connecting each origin zone to each destination zone, with line thickness proportional to the number of estimated trips. This is one of the most widely used tools for communicating travel demand patterns to planners and decision-makers.
+
+> 📌 **No new data is needed.** The visualisation uses the road network and zone geometry already loaded in previous steps.
+
+```{python}
+#| cellView: form
+# @title
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+from shapely.geometry import LineString
+from shapely import wkt
+
+# Number of strongest OD flows to display
+TOP_N_FLOWS = 300
+
+# -------------------------------------------------------
+# STEP 1 — Prepare zone centroids
+# -------------------------------------------------------
+
+# Load zone geometry saved by grid2demand
+zone_gdf = gpd.read_file(os.path.join(OUTPUT_DIR, "zone.csv"))
+
+# Parse centroid coordinates from the zone table
+# grid2demand stores centroids as "longitude,latitude" strings
+zone_gdf["centroid_lon"] = zone_gdf["centroid"].apply(
+    lambda x: wkt.loads(x).x
+)
+zone_gdf["centroid_lat"] = zone_gdf["centroid"].apply(
+    lambda x: wkt.loads(x).y
+)
+
+zone_centroids = zone_gdf.set_index("zone_id")[["centroid_lon", "centroid_lat"]]
+zone_centroids.index = zone_centroids.index.astype(int)  # ensure integer index
+
+# -------------------------------------------------------
+# STEP 2 — Build desire lines from OD matrix
+# -------------------------------------------------------
+
+# Drop zero flows and keep only the strongest
+top_flows = (
+    demand_matrix[demand_matrix["volume"] > 0]
+    .sort_values("volume", ascending=False)
+    .head(TOP_N_FLOWS)
+    .copy()
+)
+
+top_flows["o_zone_id"] = top_flows["o_zone_id"].astype(int)
+top_flows["d_zone_id"] = top_flows["d_zone_id"].astype(int)
+lines = []
+for _, row in top_flows.iterrows():
+    try:
+        o = zone_centroids.loc[row["o_zone_id"]]
+        d = zone_centroids.loc[row["d_zone_id"]]
+        lines.append(LineString([(o["centroid_lon"], o["centroid_lat"]),
+                                 (d["centroid_lon"], d["centroid_lat"])]))
+    except KeyError:
+        lines.append(None)
+
+top_flows["geometry"] = lines
+desire_lines = gpd.GeoDataFrame(
+    top_flows.dropna(subset=["geometry"]),
+    geometry="geometry",
+    crs="EPSG:4326"
+)
+print(f"Desire lines built: {len(desire_lines)}")
+
+# -------------------------------------------------------
+# STEP 3 — Plot
+# -------------------------------------------------------
+
+edges = ox.graph_to_gdfs(G, nodes=False, edges=True)
+vmin = desire_lines["volume"].min()
+vmax = desire_lines["volume"].max()
+norm = mcolors.LogNorm(vmin=vmin, vmax=vmax)
+cmap = cm.plasma
+fig, ax = plt.subplots(figsize=(6, 6))
+edges.plot(ax=ax, color="#cccccc", linewidth=0.4, alpha=0.6)
+
+for _, row in desire_lines.iterrows():
+    weight = norm(row["volume"])
+    ax.plot(
+        *row["geometry"].xy,
+        color=cmap(weight),
+        linewidth=0.5 + weight * 4,
+        alpha=0.65
+    )
+
+sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+sm.set_array([])
+cbar = fig.colorbar(sm, ax=ax, shrink=0.5, pad=0.02)
+cbar.set_label("Estimated trips (log scale)", fontsize=11)
+
+ax.set_title(f"Top {TOP_N_FLOWS} estimated OD flows — {city}", fontsize=14, pad=15)
+ax.set_axis_off()
+plt.tight_layout()
+plt.show()
+```
+
+### 🔍 Reflection
+
+Before moving on, discuss these questions with your group:
+
+1. **Spatial pattern** — Where are the strongest flows concentrated? Do they reflect what you would expect given the city's layout — for example, flows towards the city centre, major employment areas, or transport hubs?
+
+2. **Outliers and anomalies** — Are there any flows that look surprising or unrealistic? What might explain them — gaps in the OSM data, an unusual cluster of POIs, or the limitations of the model assumptions?
+
+3. **Policy relevance** — If this pattern reflects real travel demand, which corridors or intersections would you expect to be under the most pressure? What further evidence would you want before making a recommendation?
+
+> 💡 There are no right answers here. The goal is to develop a critical habit of checking model outputs before acting on them.
+
+## Task 3 — Assign Traffic Flows to the Network
+
+You now have an estimate of **how many trips** are made between zones. But where do those trips actually go? In this task, you will find out — by routing every estimated trip across the real street network.
+
+---
+
+🧮 **What the model does, in plain English:**
+
+> *"If someone needs to travel from Zone A to Zone B, they will take the shortest path through the street network — and every street along that path gets credited with that trip."*
+
+Repeat this for every OD pair in your matrix, and you end up with an estimated traffic volume on every street in the city.
+
+---
+
+| Step | What happens |
+|---|---|
+| 🔧 **Project & snap** | The network is projected into metric coordinates; zone centroids are matched to their nearest street node |
+| 🗺️ **Route** | For each origin, the model finds the shortest path to all destinations in a single pass |
+| ➕ **Accumulate** | Trip volumes are added up along each road segment across all routes |
+| 🎨 **Visualise** | Streets are coloured by estimated traffic — the busier the road, the brighter it appears |
+
+---
+
+### 🔧 Cell 1 — Project network and map zones to nodes
+
+Before any routing can happen, the model needs to work in metric coordinates (metres, not latitude/longitude) so that distances are meaningful. This cell reprojects the street network accordingly, then solves a practical problem: the OD matrix talks about zones, but routing happens between actual locations (buildings and streets). So for each zone, the model finds the nearest intersection and uses that as the entry point into the network — a process called snapping.
+
+```{python}
+#| cellView: form
+# @title
+### 🔧 Cell 1 — Project network and map zones to nodes
+
+from collections import defaultdict
+from scipy.spatial import cKDTree
+import networkx as nx
+
+# -------------------------------------------------------
+# STEP 1 — Project graph to local coordinate system
+# -------------------------------------------------------
+print("Projecting graph...")
+G = ox.project_graph(G)
+graph_crs = G.graph["crs"]
+print(f"Graph projected to: {graph_crs}")
+
+# -------------------------------------------------------
+# STEP 2 — Build spatial index for fast nearest-node lookup
+# -------------------------------------------------------
+
+# cKDTree allows us to snap zone centroids to the nearest
+# network node in milliseconds rather than looping over all nodes
+node_ids    = np.array(list(G.nodes()))
+node_coords = np.array([(G.nodes[n]["x"], G.nodes[n]["y"]) for n in node_ids])
+tree        = cKDTree(node_coords)
+
+def nearest_node(coord):
+    _, idx = tree.query(coord)
+    return node_ids[idx]
+
+# -------------------------------------------------------
+# STEP 3 — Project zone centroids and snap to network nodes
+# -------------------------------------------------------
+print("Snapping zone centroids to network nodes...")
+
+zone_node_map = {}
+for zone_id, z in g2d.zone_dict.items():
+    geom = wkt.loads(z["centroid"])
+    geom_proj = (
+        gpd.GeoSeries([geom], crs="EPSG:4326")
+        .to_crs(graph_crs)
+        .iloc[0]
+    )
+    zone_node_map[zone_id] = nearest_node((geom_proj.x, geom_proj.y))
+
+# -------------------------------------------------------
+# STEP 4 — Map OD zone IDs to network node IDs
+# -------------------------------------------------------
+demand_df = demand_df.copy()
+demand_df = demand_df[demand_df["volume"] > 0].copy()
+
+demand_df["o_node"] = demand_df["o_zone_id"].map(zone_node_map)
+demand_df["d_node"] = demand_df["d_zone_id"].map(zone_node_map)
+demand_df = demand_df.dropna(subset=["o_node", "d_node"])
+demand_df["o_node"] = demand_df["o_node"].astype(int)
+demand_df["d_node"] = demand_df["d_node"].astype(int)
+
+print(f"OD pairs to route: {len(demand_df):,}")
+```
+
+### 👥 Cell 2 — Normalise OD matrix to realistic trip volumes
+
+The raw gravity model produces trip volumes that are not calibrated to Ukrainian cities — the absolute numbers of trips can be unrealistic, even if the spatial pattern (which corridors are busiest) is plausible. To fix this, we rescale the entire OD matrix so that total daily trips matches a realistic estimate based on the city's population.
+
+ **Enter your city's population in the code box below**. It will look like this:
+
+ `total_population = 1000000  # ← Replace with your city's population`
+
+ You can use the WorldPop figure from Exercise 1, or a published estimate such as Wikipedia or the State Statistics Service of Ukraine.
+
+ 💡 To find your WorldPop figure from Exercise 1: scroll to the output of the population download cell — it will have printed a line reading "Total population in study area: XXX,XXX". Use that number here.
+
+We assume each resident makes 2.1 trips per day on average — a figure drawn from a household mobility survey conducted in Poltava, Ukraine in 2018, which is the best available published estimate for a Ukrainian city. Note that this is a pre-war figure and actual travel rates may vary between cities and have likely shifted since 2022. As with any population-based estimate, it also represents a conservative lower bound: it counts only residents, whereas the real network also serves commuters and visitors from surrounding areas.
+
+```{python}
+### 👥 Cell 2 — Normalise OD matrix to realistic trip volumes
+
+# -------------------------------------------------------
+# STEP 5 — Set city population
+# -------------------------------------------------------
+
+total_population = 200000  # ← Replace with your city's population
+
+print(f"City population (user-defined): {total_population:,.0f}")
+
+# -------------------------------------------------------
+# STEP 6 — Estimate realistic daily trip total
+# -------------------------------------------------------
+TRIPS_PER_PERSON_PER_DAY = 2.1
+target_trips = total_population * TRIPS_PER_PERSON_PER_DAY
+print(f"Target daily trips ({TRIPS_PER_PERSON_PER_DAY} per person): {target_trips:,.0f}")
+
+# -------------------------------------------------------
+# STEP 7 — Rescale OD matrix
+# -------------------------------------------------------
+raw_total = demand_df["volume"].sum()
+scale_factor = target_trips / raw_total
+demand_df["volume"] = demand_df["volume"] * scale_factor
+
+print(f"\nRaw model total:      {raw_total:,.0f} trips")
+print(f"Scaling factor:       {scale_factor:.4f}")
+print(f"Normalised total:     {demand_df['volume'].sum():,.0f} trips")
+print(f"\n✅ Complete — OD matrix normalised to population-based estimate")
+```
+
+### 🚦Cell 3 — Route trips across the network
+
+This is the core of the traffic assignment. For each origin zone, the model calculates the shortest path to every destination zone in a single efficient pass, then adds the estimated trip volumes onto every street segment along each route. By the time every origin has been processed, each street in the network has accumulated a total estimated flow — the sum of all trips routed across it.
+
+> 💡 This approach — routing demand along shortest paths — is known as **all-or-nothing assignment**. It is one of the simplest and most widely used methods in transport modelling, and a natural starting point when detailed behavioural data is unavailable.
+
+
+> ⏳ **Heads up — Cell 4 may take several minutes to run.** The model is calculating shortest paths across the entire street network for every zone in your grid. Progress will be printed as it runs — so sit back and let it work!
+
+```{python}
+### 🚦 Cell 3 — Route trips across the network
+# > ⏳ This cell may take 2–5 minutes. You will see progress printed for every 10 origins processed.
+
+# -------------------------------------------------------
+# STEP 5 — Accumulate flows using shortest-path assignment
+# -------------------------------------------------------
+
+edge_flow  = defaultdict(float)
+od_groups  = demand_df.groupby("o_node")
+n_origins  = len(od_groups)
+
+print(f"Routing {n_origins} origin nodes...")
+
+for i, (o_node, group) in enumerate(od_groups):
+
+    # Single-source Dijkstra: one call per origin covers all destinations
+    # This is much faster than routing each OD pair individually
+    _, paths = nx.single_source_dijkstra(G, o_node, weight="length")
+
+    for _, row in group.iterrows():
+        d_node = row["d_node"]
+        volume = row["volume"]
+
+        if d_node not in paths:
+            continue
+
+        # Accumulate volume along every edge in the path
+        path = paths[d_node]
+        for u, v in zip(path[:-1], path[1:]):
+            if not G.has_edge(u, v):
+                continue
+            # For parallel edges, use the shortest one
+            data = G[u][v]
+            k    = min(data, key=lambda kk: data[kk].get("length", 1))
+            edge_flow[(u, v, k)] += volume
+
+    if (i + 1) % 10 == 0 or (i + 1) == n_origins:
+        print(f"  {i + 1}/{n_origins} origins complete")
+
+# -------------------------------------------------------
+# STEP 6 — Write flows back to graph edges
+# -------------------------------------------------------
+for u, v, k in G.edges(keys=True):
+    G[u][v][k]["flow"] = float(edge_flow.get((u, v, k), 0))
+
+total_flow = sum(edge_flow.values())
+print(f"\nAssignment complete. Total link flow assigned: {total_flow:,.0f}")
+```
+
+### 🗺️ Cell 4 — Map traffic flows
+
+With flows assigned to every street, this cell produces the visualisation. Streets are coloured using a dark-to-bright colour scale — darker streets carry little traffic, brighter ones carry more. Because a small number of major roads tend to carry a disproportionately large share of trips, the flows are compressed onto a logarithmic scale so that differences across the whole network remain visible. A real-world basemap is added for context.
+
+```{python}
+#| cellView: form
+# @title
+### 🗺️ Cell 3 — Map traffic flows
+import contextily as ctx
+
+# -------------------------------------------------------
+# STEP 7 — Prepare edge colours scaled by flow
+# -------------------------------------------------------
+
+# Extract flow values; apply log(1 + flow) to compress
+# the wide range of values into a readable colour scale
+flows_raw = np.array([
+    data.get("flow", 0)
+    for _, _, _, data in G.edges(keys=True, data=True)
+])
+
+flows_log = np.log1p(flows_raw)
+max_log = flows_log.max() if flows_log.max() > 0 else 1
+norm_flows = flows_log / max_log
+
+cmap        = plt.cm.inferno
+edge_colors = [cmap(f) for f in norm_flows]
+
+# -------------------------------------------------------
+# STEP 8 — Plot
+# -------------------------------------------------------
+fig, ax = ox.plot_graph(
+    G,
+    edge_color=edge_colors,
+    edge_linewidth=2,
+    node_size=0,
+    bgcolor="white",
+    show=False,
+    close=False
+)
+
+ax.set_title(f"Estimated traffic flows — {city}", fontsize=14, pad=15)
+
+sm = plt.cm.ScalarMappable(
+    cmap=cmap,
+    norm=mcolors.Normalize(
+        vmin=flows_raw.min(),
+        vmax=flows_raw.max()
+    )
+)
+sm.set_array([])
+cbar = fig.colorbar(sm, ax=ax, fraction=0.03, pad=0.02)
+tick_vals = np.linspace(flows_raw.min(), flows_raw.max(), 5)
+cbar.set_ticks(tick_vals)
+cbar.set_ticklabels([f"{int(t):,}" for t in tick_vals])
+cbar.set_label("Flow volume (trips)", rotation=90)
+
+ctx.add_basemap(
+    ax,
+    crs=G.graph["crs"],
+    source=ctx.providers.OpenStreetMap.Mapnik,
+    alpha = 1
+)
+
+plt.tight_layout()
+plt.show()
+```
+
+### 📋 Cell 5 — Summarise assigned flows
+
+The map gives a visual impression of where traffic is heaviest — but it helps to back that up with numbers. This cell produces a concise summary of the assignment results: how many street segments are carrying traffic, the total and average flows across the network, and a ranked list of the busiest named streets in the city. These figures will be useful reference points when you move on to interpreting the results and developing policy recommendations.
+
+```{python}
+#| cellView: form
+# @title
+### 📋 Cell 5 — Summarise assigned flows
+
+# -------------------------------------------------------
+# STEP 9 — Summarise assigned flows
+# -------------------------------------------------------
+edges_data = [
+    {"u": u, "v": v, "k": k,
+     "name":   data.get("name",   "Unnamed"),
+     "length": data.get("length", 0),
+     "flow":   data.get("flow",   0)}
+    for u, v, k, data in G.edges(keys=True, data=True)
+]
+edges_df = pd.DataFrame(edges_data)
+
+assigned       = edges_df[edges_df["flow"] > 0]
+pct_assigned   = 100 * len(assigned) / len(edges_df)
+total_trips    = demand_df["volume"].sum()
+top_streets    = (
+    edges_df
+    .sort_values("flow", ascending=False)
+    .drop_duplicates(subset=["name"])
+    .query("name != 'Unnamed'")
+    .head(5)[["name", "flow", "length"]]
+    .reset_index(drop=True)
+)
+top_streets.index += 1
+
+print("=" * 45)
+print("       ASSIGNMENT RESULTS — SUMMARY")
+print("=" * 45)
+print(f"  {'Total street segments:':<30} {len(edges_df):>6,}")
+print(f"  {'Segments with flow > 0:':<30} {len(assigned):>6,}  ({pct_assigned:.0f}%)")
+print(f"  {'Total daily trips (OD matrix):':<30} {total_trips:>6,.0f}")
+print(f"  {'Trips per resident (daily):':<30} {total_trips / total_population:>6,.1f}")
+print(f"  {'Total link flow (all segments):':<30} {total_flow:>6,.0f}")
+print(f"  {'Mean flow (assigned segments):':<30} {assigned['flow'].mean():>6,.1f}")
+print(f"  {'Max flow (any segment):':<30} {assigned['flow'].max():>6,.0f}")
+print("=" * 45)
+print("\n  TOP 5 STREETS BY ESTIMATED FLOW\n")
+display(
+    top_streets
+    .rename(columns={
+        "name":   "Street",
+        "flow":   "Est. Daily Trips",
+        "length": "Segment Length (m)"
+    })
+    .style
+    .format({
+        "Est. Daily Trips":    "{:,.0f}",
+        "Segment Length (m)":  "{:,.0f}"
+    })
+    .set_caption("Busiest individual street segments (named streets only)")
+)
+
+print("\n✅ Complete — flows assigned and ready for interpretation")
+```
+
+## Task 4 — Interpret Results and Share Your Findings
+
+You have now built a complete picture of estimated travel demand and traffic flows across your city — entirely from open-source data. This final task asks you to **interpret the results and share your conclusions with the group**.
+
+---
+
+### 🔍 Before you post, reflect on these questions:
+
+**1. What does the data show?**
+- Where are the busiest corridors in your city? Is demand concentrated in the centre, or spread across the network?
+- Does the pattern match what you would expect from this city's layout and size? If not, what might explain the differences?
+
+**2. What would you recommend — and why?**
+- Based on your map and flow summary, identify **2–3 streets, corridors, or areas** you would prioritise for investment
+- What type of intervention might be appropriate — maintenance, capacity upgrade, safety improvement, public transport priority?
+
+**3. What can't this analysis tell you?**
+- The model uses **all-or-nothing assignment** — every trip takes the single shortest path. How might real-world behaviour differ?
+- Trip generation is based on **POI density** rather than observed travel data. What other factors would you want to include in a more complete model?
+- What would you do differently with more time or resources?
+
+---
+
+### 💬 Discuss with your group before posting
+
+Compare your map with your neighbours — are there patterns that appear across multiple cities, or does each city look quite different? What might explain those similarities or differences?
+
+---
+
+### 🗺️ Share Your Results
+
+**Follow these steps to share your map and reflections with the group:**
+
+---
+
+#### Step 1 — Copy your traffic flow map
+Right-click on the map output in your notebook and select **"Save image as..."** or **"Copy image"** — you'll use this in the next step.
+
+---
+
+#### Step 2 — Open the shared board
+Click the link below to open the group Padlet — no account or login needed:
+
+#### 👉 [Open the shared board](https://padlet.com/nicholascaros/itf-transport-workshop-exercise-2-wtqi3tmdnj1kpbf4)
+
+---
+
+#### Step 3 — Post your results
+1. Click the **+** button on the board
+2. **Add a title** — the name of your city
+3. **Attach your map** using the image icon, or paste with `Ctrl+V` / `Cmd+V`
+4. Add **2–3 bullet points** covering:
+   - The busiest corridors you identified
+   - One or two investment priorities you would recommend
+   - One limitation of the analysis a decision-maker should be aware of
+5. Click **Publish** to share with the group
+
+---
+
+> 💡 **Remember:** the goal of this exercise is not to produce a perfect model — it is to demonstrate how open-source tools can generate credible, evidence-based insights quickly and at low cost. A good transport planner knows both how to use these tools *and* how to communicate their limitations honestly.
+

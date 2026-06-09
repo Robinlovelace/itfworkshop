@@ -15,7 +15,7 @@ The data shows **year-end stock figures** (total refugees recorded in each host 
 
 ## Load Data
 
-```python
+```{python}
 import requests
 import pandas as pd
 import geopandas as gpd
@@ -45,9 +45,9 @@ df.head()
 
 ## World Map
 
-```python
+```{python}
 # Load country boundaries
-world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
+world = gpd.read_file("https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip")
 # Merge with refugee data
 merged = world.merge(df, left_on="iso_a3", right_on="iso_code", how="left")
 merged["total"] = merged["total"].fillna(0).astype(int)

@@ -1,16 +1,16 @@
 {
-    "name": "ITF Ukraine Workshop",
-    "image": "mcr.microsoft.com/devcontainers/python:3.12",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "GitHub.copilot-chat",
-                "quarto.quarto",
-                "ms-python.python",
-                "ms-toolsai.jupyter"
-            ]
-        }
-    },
-    "postCreateCommand": "bash .devcontainer/setup.sh",
-    "forwardPorts": [8888]
+	"name": "Transport data science container",
+	// Use pre-built image by default:
+	"image": "ghcr.io/tdscience/tartu26:latest",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"reditorsupport.r",
+				"GitHub.copilot-chat",
+				"quarto.quarto",
+				"ms-python.python",
+				"ms-toolsai.jupyter"
+			]
+		}
+	}
 }

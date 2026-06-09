@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[devcontainer] Installing R package dependencies via pak..."
+echo "[devcontainer] Installing Python dependencies..."
+pip install --upgrade pip
+pip install -r requirements.txt
 
-Rscript -e "if (!requireNamespace('pak', quietly = TRUE)) install.packages('pak', repos = 'https://cloud.r-project.org')"
-Rscript -e "pak::pak('tdscience/tartu26')"
-
-echo "[devcontainer] Dependency setup complete."
+echo "[devcontainer] Setup complete."

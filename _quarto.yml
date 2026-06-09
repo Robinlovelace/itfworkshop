@@ -22,6 +22,8 @@ website:
             text: Exercise 1 — Open Data for Transport Planning
           - href: ITF_Workshop_Exercise_2.qmd
             text: Exercise 2 — OD Demand & Network Assignment
+      - href: slides.qmd
+        text: Keynote Slides
       - href: https://github.com/Robinlovelace/itfworkshop
         text: Source code
 

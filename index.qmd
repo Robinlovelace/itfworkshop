@@ -8,17 +8,17 @@ number-sections: false
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/itfworkshop?quickstart=1)
 
-This workshop covers **five core transport planning tasks** using open data, with a focus on Ukrainian cities:
+This repository accompanies a contribution to the **ITF conference on transport data, statistics and modelling in Ukraine** (12 June 2026).
 
-| Task | Description |
-|------|-------------|
-| 📥 **Extract** | Pull data from OpenStreetMap and WorldPop |
-| 🔍 **Check** | Assess data quality and relevance |
-| ✂️ **Manipulate** | Shape data to your needs |
-| 📐 **Calculate** | Derive useful performance metrics |
-| 🗺️ **Visualise** | Analyse charts and maps |
+**Keynote:** [Building a Community of Transport Statistics and Modelling Practitioners in Ukraine](slides.qmd) — drawing on experiences with open data, open source tools, and reproducible workflows in transport planning.
 
-No coding experience needed — all Python code is already written. Just follow the step-by-step instructions.
+## Workshop Agenda
+
+- **11:30 – 12:30** Interactive Exercise, Part 1 — emerging transport data sources
+- **13:30 – 14:30** Case studies: emerging methods for transport statistics and modelling
+- **14:30 – 15:30** Interactive Exercise, Part 2 — urban travel demand modelling
+- **16:00 – 17:00** Keynote speeches and open discussion
+- **17:00 – 17:30** Recap and closing
 
 ## Exercises
 

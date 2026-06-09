@@ -29,3 +29,7 @@ This repository accompanies a contribution to the **ITF conference on transport 
 
 The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).  
 This Quarto website version is maintained at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).
+
+## Further resources
+
+- **[Ukrainian Refugee Flows](ukrainian-flows.qmd)** — animated map of refugees from Ukraine by country of asylum (2022–2025), using data from the UNHCR Refugee Statistics API.

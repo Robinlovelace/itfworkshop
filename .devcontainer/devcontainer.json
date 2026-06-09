@@ -1,0 +1,19 @@
+{
+    "name": "ITF Ukraine Workshop",
+    "image": "mcr.microsoft.com/devcontainers/python:3.12",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "GitHub.copilot-chat",
+                "quarto.quarto",
+                "ms-python.python",
+                "ms-toolsai.jupyter"
+            ]
+        }
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/quarto:1": {}
+    },
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "forwardPorts": [8888]
+}

@@ -37,6 +37,26 @@ A Quarto website version of the exercises is available at:
 
 **[robinlovelace.net/itfworkshop](https://robinlovelace.net/itfworkshop/)**
 
+### Local development with pixi
+
+To set up a local environment with all Python dependencies:
+
+```bash
+# Install pixi (if not already installed)
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Clone and set up
+git clone https://github.com/Robinlovelace/itfworkshop.git
+cd itfworkshop
+pixi install
+
+# Render the Ukrainian refugee flows page
+pixi run render
+
+# Or start a live preview
+pixi run start
+```
+
 ---
 
 ## Data Sources

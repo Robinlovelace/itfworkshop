@@ -2,6 +2,7 @@
 title: "Ukrainian Refugee Flows — Animated Map"
 format: html
 number-sections: false
+jupyter: itfworkshop
 execute:
   message: false
   warning: false
@@ -48,8 +49,10 @@ df.head()
 ```{python}
 # Load country boundaries
 world = gpd.read_file("https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip")
+# Replace missing ISO codes (-99) with NaN
+world["ISO_A3"] = world["ISO_A3"].replace("-99", None)
 # Merge with refugee data
-merged = world.merge(df, left_on="iso_a3", right_on="iso_code", how="left")
+merged = world.merge(df, left_on="ISO_A3", right_on="iso_code", how="left")
 merged["total"] = merged["total"].fillna(0).astype(int)
 
 fig = px.choropleth(
@@ -74,7 +77,7 @@ fig.show()
 
 ## Top Host Countries
 
-```python
+```{python}
 top = df.groupby("country")["refugees"].max().sort_values(ascending=False).head(15).index
 top_df = df[df["country"].isin(top)].copy()
 

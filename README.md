@@ -25,6 +25,18 @@ Both exercises run in **Google Colab** — no local installation needed.
 3. Go to **File → Save a copy in Drive** before making any changes
 4. Run each cell in order, waiting for **"Complete"** before moving on
 
+### Run in a dev container
+
+You can also open this repo in a pre-configured environment with all dependencies installed using GitHub Codespaces or a local dev container:
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/ukraine-workshop?quickstart=1)
+
+### Rendered website
+
+A Quarto website version of the exercises is available at:
+
+**[robinlovelace.net/ukraine-workshop](https://robinlovelace.net/ukraine-workshop/)**
+
 ---
 
 ## Data Sources

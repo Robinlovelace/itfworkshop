@@ -1,0 +1,29 @@
+---
+number-sections: false
+---
+
+# ITF Transport Data, Statistics and Modelling Workshop
+
+> **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros). This website is deployed from a [fork](https://github.com/Robinlovelace/ukraine-workshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
+
+This workshop covers **five core transport planning tasks** using open data, with a focus on Ukrainian cities:
+
+| Task | Description |
+|------|-------------|
+| 📥 **Extract** | Pull data from OpenStreetMap and WorldPop |
+| 🔍 **Check** | Assess data quality and relevance |
+| ✂️ **Manipulate** | Shape data to your needs |
+| 📐 **Calculate** | Derive useful performance metrics |
+| 🗺️ **Visualise** | Analyse charts and maps |
+
+No coding experience needed — all Python code is already written. Just follow the step-by-step instructions.
+
+## Exercises
+
+- **[Exercise 1:](ITF_Workshop_Exercise_1.qmd)** Open Data for Transport Planning — extract, check, manipulate, calculate, and visualise open data for a Ukrainian city.
+- **[Exercise 2:](ITF_Workshop_Exercise_2.qmd)** OD Demand & Network Assignment — build an origin-destination demand matrix and assign flows to the road network.
+
+## Source
+
+The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).  
+This Quarto website version is maintained at [github.com/Robinlovelace/ukraine-workshop](https://github.com/Robinlovelace/ukraine-workshop).

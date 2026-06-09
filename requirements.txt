@@ -1,0 +1,13 @@
+geopandas
+osmnx
+worldpoppy
+grid2demand
+osm2gmns
+pandas
+numpy
+matplotlib
+shapely
+networkx
+scipy
+contextily
+jupyter

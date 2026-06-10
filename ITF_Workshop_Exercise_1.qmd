@@ -97,33 +97,21 @@ Pick a city from the list below to analyse. Each group should try to choose **di
 | Vinnytsia, Vinnytsia Oblast |
 | Zaporizhzhia |
 
-To select your city, find the line that reads `city = "YOUR CITY HERE"` in the cell below and replace `YOUR CITY HERE` with your chosen city name — **spelled and capitalised exactly as shown in the table above**.
-
-For example, to select Dnipro or Donetsk:
-
-```python
-city = "Dnipro"
-```
-
-```python
-city = "Donetsk, Donetsk Oblast"
-```
+Replace "Dnipro" in the code below:
 
 ▶️ **Once you've made your edit, run the cell.**
 
 ```{python}
-city = "YOUR CITY HERE"
-print("You have selected:", city)
-print("Complete")
+city = "Dnipro"  # <-- Replace with your chosen city, e.g. "Lviv"
 ```
 
 ### 🗂️ Task 3: Import the Data
 
-Now that you've chosen your city, this task downloads two datasets needed for your analysis. Here's what happens when you run the cell:
+The following code chunk downloads three datasets needed for your analysis:
 
-1. **Look up your city's boundary** — the code finds the official administrative boundary for your chosen city, which is used to clip both datasets to the right area
-2. **Download the transport network** — all roads, footpaths, bike lanes, and other transport links within that boundary are fetched from OpenStreetMap
-3. **Download population estimates** — a 100m-resolution population grid covering your city is fetched from WorldPop, which will later be used to calculate per-person infrastructure figures
+1. **Area boundary**: the code finds and imports the administrative boundary, used to clip both datasets to the right area
+2. **Transport network**: roads, footpaths, bike lanes, and other transport links within that boundary from OpenStreetMap
+3. **Population estimates**: a 100 m resolution population grid covering your city is fetched from WorldPop, which will later be used to calculate per-person infrastructure figures
 
 > ⏱️ **This step may take 3-4 minutes** depending on the size of your city. You'll see some output appear as the data downloads — this is normal. Wait for the **"Complete"** message before moving on.
 
@@ -131,24 +119,23 @@ Now that you've chosen your city, this task downloads two datasets needed for yo
 
 ```{python}
 #| collapsed: true
-# Import the libraries installed in Task 1 and other useful functions
-import osmnx as ox       # For downloading and working with OpenStreetMap data
-import worldpoppy as wp  # For downloading and working with WorldPop population data
+# Import the libraries from the previous step
+import osmnx as ox       # Download OSM data
+import worldpoppy as wp  # Download and WorldPop data
 import geopandas as gpd
 from shapely.geometry import box
 
-# Step 1: Get the geographic boundary of the chosen city.
-# This boundary is used to clip both the OSM and population data to the right area
+# Dataset 1
 gdf = ox.geocoder.geocode_to_gdf(city)
 polygon = gdf.geometry.iloc[0]
 west, south, east, north = polygon.bounds
 bbox = (west, south, east, north)
 
-# Step 2: Download the transport network from OpenStreetMap
+# Dataset 2
 ox.settings.useful_tags_way = ["highway", "cycleway", "footway", "sidewalk", "busway", "length"]
 osm_data = ox.graph_from_bbox(bbox, custom_filter='["highway"]')
 
-# Step 3: Download population estimates from WorldPop for the city boundary
+# Dataset 3
 bbox_geom = box(west, south, east, north) # Convert to GeoDataFrame
 bbox_gdf = gpd.GeoDataFrame( geometry=[bbox_geom], crs=gdf.crs)
 pop_data = wp.wp_raster(product_name='pop_g2_r25a', aoi=bbox_gdf, years=2024)

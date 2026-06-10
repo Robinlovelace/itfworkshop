@@ -40,8 +40,7 @@ You can run the code in a few different ways.
 
 1. 🖱️ **Hover** over cell. A **▶** button should appear on the left
 2. 👆 **Click ▶** to run it
-3. 👀 **Watch** the output appear below the cell
-4. ✅ **Wait** for the **"Complete"** message before moving on
+3. 👀 **Watch** the output appear below the cell and wait for it to complete.
 
 </details>
 
@@ -113,9 +112,7 @@ The following cell downloads two main datasets:
 | 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap), OSM | A free, community-built map of the world, like 'Wikipedia for maps' | Estimating the total length of transport network segments |
 | 👥 [WorldPop](https://www.worldpop.org/about/) | An open dataset of population estimates at high spatial resolution (100 m grid) | Estimating the population of your assigned area |
 
-> ⏱️ **This step may take a few minutes** depending on the size of the city and download speeds. You should see some output appear as the data downloads. Wait for the **"Complete"** message before moving on.
-
-▶️ **Run the cell below to import the data.**
+> ⏱️ **This download step may take a few minutes** depending on the size of the city and download speeds. You should see some output appear as the data downloads. 
 
 ```{python}
 #| collapsed: true
@@ -139,13 +136,11 @@ osm_data = ox.graph_from_bbox(bbox, custom_filter='["highway"]')
 bbox_geom = box(west, south, east, north) # Convert to GeoDataFrame
 bbox_gdf = gpd.GeoDataFrame( geometry=[bbox_geom], crs=gdf.crs)
 pop_data = wp.wp_raster(product_name='pop_g2_r25a', aoi=bbox_gdf, years=2024)
-
-print("Complete")
 ```
 
 ### 🔍 Task 4: Review the Data
 
-Before doing any analysis, it's good practice to visually inspect your data to check that it looks correct and complete. This task produces two maps of your city:
+Before doing any analysis, it's good practice to visually inspect your data to check that it looks correct. This task produces two maps of your city:
 
 1. **Transport network map** — shows all the roads, footpaths, and other transport links downloaded from OpenStreetMap. Check that the network looks complete and matches your expectations for the city.
 2. **Population map** — shows the distribution of people across your city. Brighter areas have higher population density. The title shows the total estimated population.
@@ -395,8 +390,6 @@ for spine in ax.spines.values():
     spine.set_edgecolor('#444444')
 plt.tight_layout()
 plt.show()
-
-print("Complete")
 ```
 
 ### 📊 Task 7: Interpret and Evaluate the Results
@@ -524,7 +517,6 @@ for ax, (name, layer) in zip(axes, layers.items()):
 
 plt.tight_layout()
 plt.show()
-print("Complete")
 ```
 
 ## 📊 Task 9: Interpret and Evaluate the Maps

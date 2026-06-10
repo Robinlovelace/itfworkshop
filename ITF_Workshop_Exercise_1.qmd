@@ -15,7 +15,7 @@ This exercise walks you through five tasks:
 | 📐 | **Calculate** | Derive useful performance metrics |
 | 🗺️ | **Visualise & interpret** | Analyse charts and maps |
 
-> 💡 **No coding experience needed.** You can follow the instructions below to run the code. Editing and re-running code chunks is encouraged to help learn how it works!
+> 💡 **No coding experience needed.** You can follow the instructions below to run the code. Editing and re-running code cells is encouraged to help learn how it works!
 
 The workshop provides an introduction to accessing and working with a couple of open access data sources and a for future work.
 Using Python, or other open source programming languages, opens-up a world of possibility.
@@ -31,7 +31,7 @@ Imagine you've been asked to assess transport infrastructure in a city that has 
 
 ## ▶️ How to Run the Code
 
-The exercise is divided into **tasks**, each containing one or more **code chunks**, also called **cells**.
+The exercise is divided into **tasks**, each containing one or more **cells**, also called 'chunks'.
 
 You can run the code in a few different ways.
 
@@ -63,20 +63,14 @@ You can then run the code chunks in one of 2 ways:
 
 ### 🛠️ Task 1: Setup
 
-Before diving in, here's a quick overview of the two open data sources you'll be using (in addition from the case study boundery, derived from OSM):
-
-| Data Source | What it is | What you'll use it for |
-|---|---|---|
-| 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap), OSM | A free, community-built map of the world, like 'Wikipedia for maps' | Estimating the total length of roads, sidewalks, bike lanes, and bus lanes |
-| 👥 [WorldPop](https://www.worldpop.org/about/) | An open dataset of population estimates at high spatial resolution | Estimating the population of your assigned area |
-
-To work with these datasets, you first need to have a few **packages** installed. These are extensions providing functions meaning you don't have to write things from scratch in low-level Python code.
+The first task is to install the **packages** you will use in the workbook. These are extensions providing functions meaning you don't have to write things from scratch in low-level Python code.
 
 > ⏱️ **This step may take a few minutes.** 
 
-▶️ **Run the cell below to install the packages, if not already installed.**
+▶️ Run the command below to install the packages from inside Python, if they are not already installed.
 
-```python
+```{python}
+#| eval: false
 #| collapsed: true
 !pip install -q osmnx worldpoppy
 ```
@@ -102,9 +96,7 @@ Pick a city from the list below to analyse. Each group should try to choose **di
 | Vinnytsia, Vinnytsia Oblast |
 | Zaporizhzhia |
 
-Replace "Dnipro" in the code below:
-
-▶️ **Once you've made your edit, run the cell.**
+Replace "Dnipro" with your chosen city below, and run the cell.
 
 ```{python}
 city = "Dnipro"  # <-- Replace with your chosen city
@@ -113,11 +105,13 @@ print(f"City set to: {city}")
 
 ### 🗂️ Task 3: Import the Data
 
-The following code chunk downloads three datasets needed for your analysis:
+The following cell downloads two main datasets:
 
-1. **Area boundary**: the code finds and imports the administrative boundary, used to clip both datasets to the right area
-2. **Transport network**: roads, footpaths, bike lanes, and other transport links within that boundary from OpenStreetMap
-3. **Population estimates**: a 100 m resolution population grid covering your city is fetched from WorldPop, which will later be used to calculate per-person infrastructure figures
+
+| Data Source | What it is | What you'll use it for |
+|---|---|---|
+| 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap), OSM | A free, community-built map of the world, like 'Wikipedia for maps' | Estimating the total length of transport network segments |
+| 👥 [WorldPop](https://www.worldpop.org/about/) | An open dataset of population estimates at high spatial resolution (100 m grid) | Estimating the population of your assigned area |
 
 > ⏱️ **This step may take a few minutes** depending on the size of the city and download speeds. You should see some output appear as the data downloads. Wait for the **"Complete"** message before moving on.
 

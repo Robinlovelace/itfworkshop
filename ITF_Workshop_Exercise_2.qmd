@@ -23,47 +23,26 @@ The tasks focus on running each cell and thinking about the results.
 | 📐 | **Calculate** | Calculate basic indicators |
 | 🗺️ | **Visualise & interpret** | Map results, which could be used to support evidence-based policy recommendations |
 
-## 📋 Your Assignment
+## 📋 Assignment
 
-Your city manager was impressed with your work in Exercise 1 and is back with a new request. To support upcoming budget decisions, they need evidence on where traffic is highest across the city — but as before, there is no time or budget to collect survey data.
+The hypothetical assignment is to identify where where traffic congestion is most serious, with no local knowledge or budget to collect survey data.
 
-Your task is to use open-source tools to **estimate travel demand and assign it to the road network**, producing a picture of traffic flows across the city. You will then interpret those results to develop a short set of **evidence-based policy recommendations**.
+Your task is to use open-source tools to **estimate travel demand and assign it to the road network**, producing a picture of traffic flows across the city. You will then interpret those results.
 
 **By the end of this exercise, your group will produce:**
-- A set of maps showing estimated traffic volumes on the city street network
+
+- A set of maps with hypothetical traffic volume estimates on the city street network
 - A short briefing (3–5 bullet points) identifying priority streets or corridors for investment, with supporting evidence from your analysis
 
 > 🌍 Each group should work with the **same Ukrainian city** they chose in Exercise 1.
 
----
-
-## ▶️ Reminder: How to Run the Code
-
-The exercise is divided into **tasks**, each containing one or more blocks of code called **cells**.
-
-1. 🖱️ **Hover** over a cell — a **▶** button appears on the left
-2. 👆 **Click ▶** to run it
-3. 👀 **Watch** the output appear below the cell
-4. ✅ **Wait** for the **"Complete"** message before moving on
-
-> ⚠️ Run each cell **once**, in order, and always wait for **"Complete"** before continuing.
-
-If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
-
----
-
+For a recap on instructions for how to do this, see Exercise 1.
 
 **Let's get started! 🚀**
 
 ### Task 1: Setup
 
-To complete your assignment, you decide to use OpenStreetMap data to estimate the total amount of transport infrastructure, and WorldPop data to estimate the population of your assigned city.
-
-You can find more information about each data source here: OpenStreetMap, WorldPop.
-
-In order to work with this data, you will need to install a few special Python "libraries", which contain code written by other people to make it easier to manipulate transport and population data.
-
-Hover over the cell below and click "Run" to install the special libraries.
+As before we'll install the packages used in the workbook:
 
 ```{python}
 #| collapsed: true
@@ -72,38 +51,7 @@ Hover over the cell below and click "Run" to install the special libraries.
 
 ### 🏙️ Task 2: Choose a City
 
-Please choose the same city you used last time. Here's a reminder of the correct names to use:
-
-| City |
-| --- |
-| Chernihiv, Chernihiv Oblast |
-| Dnipro |
-| Donetsk, Donetsk Oblast |
-| Kharkiv |
-| Kryvyi Rih |
-| Kyiv |
-| Luhansk, Luhansk Oblast |
-| Lviv |
-| Mariupol |
-| Mykolaiv |
-| Odesa |
-| Poltava, Poltava Oblast |
-| Vinnytsia, Vinnytsia Oblast |
-| Zaporizhzhia |
-
-To select your city, find the line that reads `city = "YOUR CITY HERE"` in the cell below and replace `YOUR CITY HERE` with your chosen city name — **spelled and capitalised exactly as shown in the table above**.
-
-For example, to select Dnipro or Donetsk:
-
-```python
-city = "Dnipro"
-```
-
-```python
-city = "Donetsk, Donetsk Oblast"
-```
-
-▶️ **Once you've made your edit, run the cell.**
+Please choose the same city you used last time, replacing "YOUR CITY HERE" with your city name
 
 ```{python}
 city = "YOUR CITY HERE"
@@ -119,14 +67,14 @@ print("Complete")
 
 ## Task 1 — Estimate an Origin-Destination (OD) Matrix
 
-An **origin-destination (OD) matrix** describes how many trips are made between every pair of zones in a city. It is a fundamental input to any traffic model.
+An **origin-destination (OD) matrix** describes how many trips are made between every pair of zones in a city. It is a fundamental input to many transport models.
 
 In this task, you will:
 - Download the road network and points of interest (POIs) for your city from OpenStreetMap
 - Divide the city into a grid of zones
 - Use a **gravity model** to estimate how many trips occur between each pair of zones
 
-This process uses three open-source libraries working together in sequence:
+This process use the three Python packages installed with the code listed above:
 
 | Library | Role |
 |---|---|
@@ -134,13 +82,13 @@ This process uses three open-source libraries working together in sequence:
 | `osm2gmns` | Converts the network into GMNS format (a standard used in transport modelling) |
 | `grid2demand` | Creates zones and estimates OD demand using a gravity model |
 
-> ⚠️ **These cells may take 1–2 minutes to run.** This is normal — the tools are downloading and processing real city data.
+> ⚠️ **These cells may take a few minutes to run.** 
 
 There is quite a bit of code involved in this process, so it is broken up into four cells. You can run each cell in order and do not have to make any changes.
 
 ### 📦 Cell 1: Configuration
 
-Before any analysis can begin, this cell loads all the software libraries needed for this task. It also sets the key parameters for the analysis: the area to study (a 5 km radius around the city centre), how finely to divide it (a 12×12 grid of zones), and where to save the results.
+The next cell loads the Python packages and sets the key parameters for the analysis: the area to study (a 5 km radius around the city centre), how finely to divide it (a 12×12 grid of zones), and where to save the results.
 
 ```{python}
 #| cellView: form
@@ -156,7 +104,6 @@ import osmnx as ox
 import osm2gmns as og
 import grid2demand as gd
 
-
 # Radius around the city centre to include (metres)
 RADIUS_M = 5000
 
@@ -170,7 +117,7 @@ OUTPUT_DIR = os.path.join(os.getcwd(), "cache", "grid2demand_output")
 
 ### 🌍 Cell 2: Download data
 
-This cell downloads real data from OpenStreetMap for your chosen city. It starts by pinpointing the city centre coordinates, then downloads the driveable road network within 5 km. Finally, it collects points of interest (POIs) — shops, offices, amenities, buildings and more — which will be used in the next steps to estimate how much travel activity each part of the city generates.
+The following cell finds the coordinates of the city centre and downloads the driveable road network within 5 km and points of interest (POIs) from OSM. These include shops, offices and more, which will be used to estimate traffic in subsequent cells.
 
 
 ```{python}
@@ -224,8 +171,7 @@ print(f"Downloaded {len(poi_gdf):,} POIs.")
 
 ### 🔧 Cell 3: Convert network and set up zones
 
-Raw map data isn't immediately usable by a transport model — it needs to be cleaned and restructured first. This cell converts the road network into a standard transport format, merges it with the POI data, and then divides the study area into a 12×12 grid of analysis zones. These zones are the spatial building blocks of the OD matrix.
-
+Raw map data isn't immediately usable by a transport model. The next cell converts the road network dataset into an different format, merges it with the POI data, and then divides the study area into a 12×12 grid of analysis zones. These zones are the spatial building blocks of the OD matrix.
 
 ```{python}
 #| cellView: form
@@ -285,7 +231,7 @@ print("Zones created.")
 
 ### 📊 Cell 4 — Run the gravity model and save results
 
-This is where the demand estimation happens. The cell uses a gravity model — one of the most established methods in transport planning — to estimate how many trips occur between every pair of zones. The logic mirrors real-world behaviour: more trips are expected between zones with lots of activity that are close together, and fewer between zones that are distant or have little going on. The full OD matrix is saved to your output folder, and a summary is shown below.
+This is where the demand estimation happens. The cell uses a gravity model from the [`grid2demand`](https://pypi.org/project/grid2demand/) package on PyPi to generate a crude estimate how many trips occur between every pair of zones. More trips are expected between zones with lots of activity that are close together, and fewer between zones that are distant or have little going on. The full OD matrix is saved to your output folder, and a summary is shown below.
 
 ```{python}
 #| collapsed: true
@@ -355,9 +301,7 @@ print(f"\n✅ Complete — OD matrix saved to: {OUTPUT_DIR}")
 
 ## Task 2 — Visualise the OD Matrix
 
-Before moving on, it is worth taking a moment to inspect the results to ensure that they look reasonable.
-
-In this task, you will visualise the estimated OD demand as **desire lines** — straight lines connecting each origin zone to each destination zone, with line thickness proportional to the number of estimated trips. This is one of the most widely used tools for communicating travel demand patterns to planners and decision-makers.
+Before moving on, we will visualise the **desire lines**. Desire lines are straight lines connecting each origin zone to each destination zone, with line thickness proportional to the number of estimated trips.
 
 > 📌 **No new data is needed.** The visualisation uses the road network and zone geometry already loaded in previous steps.
 
@@ -458,7 +402,7 @@ plt.show()
 
 ### 🔍 Reflection
 
-Before moving on, discuss these questions with your group:
+Before moving on, answer these questions with your group:
 
 1. **Spatial pattern** — Where are the strongest flows concentrated? Do they reflect what you would expect given the city's layout — for example, flows towards the city centre, major employment areas, or transport hubs?
 
@@ -470,17 +414,9 @@ Before moving on, discuss these questions with your group:
 
 ## Task 3 — Assign Traffic Flows to the Network
 
-You now have an estimate of **how many trips** are made between zones. But where do those trips actually go? In this task, you will find out — by routing every estimated trip across the real street network.
+You now have an estimate of **how many trips** are made between zones. But where do those trips actually go? In this task, you will generate estimates of this by routing every estimated trip across the real street network.
 
----
-
-🧮 **What the model does, in plain English:**
-
-> *"If someone needs to travel from Zone A to Zone B, they will take the shortest path through the street network — and every street along that path gets credited with that trip."*
-
-Repeat this for every OD pair in your matrix, and you end up with an estimated traffic volume on every street in the city.
-
----
+This happens in the following steps:
 
 | Step | What happens |
 |---|---|

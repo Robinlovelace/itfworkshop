@@ -272,18 +272,11 @@ Now that you've reviewed and validated your data, it's time to calculate the key
 1. **Reprojects the data** to a metric coordinate system (metres instead of degrees) so that distances are calculated accurately
 2. **Calculates the total length** of roads, sidewalks, bike lanes, and bus lanes in kilometres
 3. **Estimates the total population** of the city from the WorldPop raster
-4. **Calculates infrastructure availability per person** — the total length of each infrastructure type divided by the total population
-
-The results will be printed as a summary table, followed by a chart comparing infrastructure availability across the different types.
+4. **Calculates infrastructure availability per person** by dividing the total length of each infrastructure type by the total population
 
 > ℹ️ The per-person figures will be in **metres per person**, which is a more readable unit than kilometres per person for most infrastructure types.
 
-> ⚠️ **A note on data quality:** these results are derived from OpenStreetMap and are subject to limitations  — incomplete tagging, inconsistent mapping conventions, and varying levels of community contribution across cities. Treat them as indicative rather than authoritative.
-
-▶️ **Run the cell below to calculate the metrics.**
-
-
-
+> ⚠️ **A note on data quality:** these results are derived from OpenStreetMap and are subject to limitations, including incomplete tagging, inconsistent mapping conventions. Treat them as indicative rather than authoritative.
 
 ```{python}
 import pandas as pd

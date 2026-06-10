@@ -265,7 +265,7 @@ print(f"  Median:  {float(np.median(pop_values)):.1f}")
 print(f"\nConcentration: the top 10% most dense cells contain {top10_share:.1f}% of the total population")
 ```
 
-### 📐 Task 6: Run the Calculations
+### 📐 Task 6: Calculate length of infrastructure per person
 
 Now that you've reviewed and validated your data, it's time to calculate the key metrics for your city. Here's what this task does:
 

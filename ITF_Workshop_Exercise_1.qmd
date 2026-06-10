@@ -411,15 +411,14 @@ To put your results in context, it helps to compare them with cities in countrie
 | Cluj-Napoca | Romania | ~320,000 | 15.63 | 6.90 | 0.40 |
 
 
-3. **How does your city compare to the benchmark cities?** Is it above or below average for each infrastructure type?
-4. **What factors might explain differences between cities** — for example, city size, urban density, historical development patterns, or investment levels?
-
----
+4. **How does your city compare to the benchmark cities?** Is it above or below average for each infrastructure type?
+5. **What factors might explain differences between cities** — for example, city size, urban density, historical development patterns, or investment levels?
 
 #### 🚦 Part 3: Transport planning implications
 
-5. **If you were advising the city government, which infrastructure type would you prioritise investing in first?** What additional data would you want before making that recommendation?
-6. **How might the ongoing conflict in Ukraine affect the reliability of both the OpenStreetMap data and the WorldPop population estimates** for the cities in this exercise?
+6. **If you were advising the city government, which infrastructure type would you prioritise investing in first?** What additional data would you want before making that recommendation?
+
+7. **How might the ongoing conflict in Ukraine affect the reliability of both the OpenStreetMap data and the WorldPop population estimates** for the cities in this exercise?
 
 ## 🗺️ Task 8: Generate Maps of the Data
 
@@ -437,8 +436,6 @@ The code below will:
 * Produce a combined map showing transport infrastructure alongside population distribution
 
 > ⚠️ Because the network data can be large, the plotting step may take a minute or two for larger cities.
-
-▶️ **Run the cell below to generate the maps.**
 
 ```{python}
 from matplotlib.colors import LogNorm
@@ -572,4 +569,3 @@ Click the link below to open the group Padlet — no account or login needed:
 ---
 
 > 💡 Once everyone has posted, take a few minutes to look at the other cities on the board. How do infrastructure patterns differ across Ukrainian cities? What might explain those differences?
-

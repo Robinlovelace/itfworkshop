@@ -1,9 +1,11 @@
 ---
 title: 🚦 ITF Transport Data, Statistics and Modelling Workshop — Exercise 1
 jupyter: python3
+execute:
+    cache: true
 ---
 
-This exercise walks you through five core transport planning tasks using open data:
+This exercise walks you through five tasks:
 
 | | Task | What you'll do |
 |---|---|---|
@@ -13,32 +15,33 @@ This exercise walks you through five core transport planning tasks using open da
 | 📐 | **Calculate** | Derive useful performance metrics |
 | 🗺️ | **Visualise & interpret** | Analyse charts and maps |
 
-> 💡 **No coding experience needed.** All the Python code is already written — just follow the step-by-step instructions below.
+> 💡 **No coding experience needed.** You can follow the instructions below to run the code. Editing and re-running code chunks is encouraged to help learn how it works!
 
-By the end, you'll have a clearer sense of how open data can generate transport planning insights for Ukraine, and you'll have working code you can adapt for your own future needs.
-
----
-
-
-
+The workshop provides an introduction to accessing and working with a couple of open access data sources and a for future work.
+Using Python, or other open source programming languages, opens-up a world of possibility.
 
 ## 📋 Your Assignment
 
-You've been asked to assess transport infrastructure in a Ukrainian city you're not familiar with — and with no official data, or enough budget or time to collect it yourself.
+Imagine you've been asked to assess transport infrastructure in a city that has limited official data.
 
-**Your goal:** find the total length of roads, sidewalks and bike lanes in your assigned area, then divide by population to produce a **per-person infrastructure availability metric** you can compare with other places in Ukraine and beyond.
+**Your goal:** find the total length of roads, sidewalks and bike lanes in your assigned area, then divide by population to produce a **per-person infrastructure availability metric** you can compare with other places.
 
 
 ## ▶️ How to Run the Code
 
-The exercise is divided into **tasks**, each containing one or more blocks of code called **cells**.
+The exercise is divided into **tasks**, each containing one or more **code chunks**, also called **cells**.
 
-1. 🖱️ **Hover** over a cell — a **▶** button appears on the left
+You can run the code in a few different ways.
+
+<details>
+<summary>In IPython Notebooks you can run the code as follows.</summary>
+
+1. 🖱️ **Hover** over cell. A **▶** button should appear on the left
 2. 👆 **Click ▶** to run it
 3. 👀 **Watch** the output appear below the cell
 4. ✅ **Wait** for the **"Complete"** message before moving on
 
-> ⚠️ Run each cell **once**, in order, and always wait for **"Complete"** before continuing.
+</details>
 
 If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
 

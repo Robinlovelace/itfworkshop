@@ -140,14 +140,7 @@ pop_data = wp.wp_raster(product_name='pop_g2_r25a', aoi=bbox_gdf, years=2024)
 
 ### 🔍 Task 4: Review the Data
 
-Before doing any analysis, it's good practice to visually inspect your data to check that it looks correct. This task produces two maps of your city:
-
-1. **Transport network map** — shows all the roads, footpaths, and other transport links downloaded from OpenStreetMap. Check that the network looks complete and matches your expectations for the city.
-2. **Population map** — shows the distribution of people across your city. Brighter areas have higher population density. The title shows the total estimated population.
-
-If anything looks wrong or unexpected — for example, if the network only covers part of the city, or the population total seems way off — let one of the facilitators know before continuing.
-
-> ⚠️ **Run the two cells below one at a time**, waiting for each map to appear before running the next.
+Before doing any analysis, it's good practice to visually inspect the input datasets described above. This task will produce a map of each dataset described above. The resuls should be images showing transport infrastructure and the population distribution in the case study area, with brighter areas in the second map having higher population density. 
 
 ```{python}
 # Cell 1: Map the road transport network from OpenStreetMap
@@ -157,14 +150,14 @@ fig, ax = ox.plot.plot_graph(
     osm_data,
     show=False,
     close=False,
-    bgcolor="#111111",    # Dark background to make the network stand out
-    edge_color="#ffcb00", # Colour of the roads and paths
-    edge_linewidth=0.3,   # Line thickness — keep thin for dense networks
-    node_size=0,          # Hide intersections to keep the map clean
+    bgcolor="#111111",    # Background colour
+    edge_color="#ffcb00", # Colour of the network
+    edge_linewidth=0.3,     # Line thickness
+    node_size=0,            # Hide intersections
 )
 
 # Overlay the city boundary as a subtle outline
-gdf.plot(ax=ax, fc="none", ec="#ffffff", lw=0.8, alpha=0.5, zorder=2)
+gdf.plot(ax=ax, fc="none", ec="#ffffff", lw=5, alpha=0.5, zorder=2)
 
 # Add a title
 ax.set_title(f"{city}: Transport Network", color="black", fontsize=14, pad=12)
@@ -210,22 +203,18 @@ ax.tick_params(colors="white")
 plt.show()
 ```
 
+
 ### 🔎 Task 5: Inspect and Evaluate the Data
 
-Before doing any calculations, it's important to understand the structure of your data and check for any potential issues. This is a critical step in any data analysis — even the best open data sources can contain errors, gaps, or columns that are unclear or irrelevant.
+Before doing any calculations, it's important to understand the structure of your data and check for any potential issues. 
 
 This task doesn't require you to write any code. Instead, focus on reading the outputs carefully and thinking critically about what you see.
 
-▶️ **Run Cell 1 and answer the following questions before moving on to Cell 2:**
+After running the following cell answer the following questions.
 
 1. **Look through the column names.** Identify at least 2 columns whose purpose is unclear to you. Can you make an educated guess at what they mean?
+
 2. **Look at the values in the first 5 rows.** Are there any columns that appear to contain mostly empty or missing values? Do you think those columns will be important for your analysis?
-
-
-▶️ **Then run Cell 2 and answer the following questions:**
-
-3. **Compare the total estimated population to what you know about your city.** Does it seem reasonable? If it seems too high or too low, what might explain that?
-4. **Look at the minimum and maximum population density values.** How large is the gap between them? What does that tell you about how evenly population is distributed across the city?
 
 ```{python}
 # Cell 1: Inspect the structure of the OpenStreetMap road network data
@@ -241,6 +230,12 @@ print(edges.dtypes)
 print("\nFirst 5 rows:")
 edges.head()
 ```
+
+After running the following cell answer the following questions:
+
+3. **Compare the total estimated population to what you know about the city.** Does it seem reasonable? If it seems too high or too low, what might explain that?
+4. **Look at the minimum and maximum population density values.** How large is the gap between them? What does that tell you about how evenly population is distributed across the city?
+
 
 ```{python}
 # Cell 2: Inspect the structure of the WorldPop population data

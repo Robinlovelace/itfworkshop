@@ -20,6 +20,8 @@ This exercise walks you through five tasks:
 The workshop provides an introduction to accessing and working with a couple of open access data sources and a for future work.
 Using Python, or other open source programming languages, opens-up a world of possibility.
 
+If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
+
 ## 📋 Your Assignment
 
 Imagine you've been asked to assess transport infrastructure in a city that has limited official data.
@@ -34,7 +36,7 @@ The exercise is divided into **tasks**, each containing one or more **code chunk
 You can run the code in a few different ways.
 
 <details>
-<summary>In IPython Notebooks you can run the code as follows.</summary>
+<summary>In IPython Notebooks (.ipynb files)</summary>
 
 1. 🖱️ **Hover** over cell. A **▶** button should appear on the left
 2. 👆 **Click ▶** to run it
@@ -43,27 +45,36 @@ You can run the code in a few different ways.
 
 </details>
 
-If anything is unclear or doesn't work as expected, please ask one of the facilitators available in the room.
 
----
+<details>
+<summary>In Quarto documents equivalent(.qmd files)</summary>
 
+This way is recommended if you want to have more control over the user interface.
+Start by opening the file (such as `ITF_Workshop_Exercise_1.qmd`) in VSCode or an equivalent editor with the Quarto extension installed.
+You can then run the code chunks in one of 2 ways:
+
+1. By placing your cursor inside the code chunk and running the code with the keyboard shortcut Ctrl+Enter (Command+Enter on Mac). This will run the whole code chunk and is the equivalent of clicking the "Run Cell" button but quicker.
+  - You can also control exactly which lines or even characters are execuated by selecting them and then pressing Ctrl+Enter, giving you more control and enabling you to learn by experimenting.
+2. By clicking "Run Cell" at the top of each cell (Run Next Cell and Run Above options should also be available)
+
+</details>
 
 **Let's get started! 🚀**
 
 ### 🛠️ Task 1: Setup
 
-Before diving in, here's a quick overview of the two open data sources you'll be using:
+Before diving in, here's a quick overview of the two open data sources you'll be using (in addition from the case study boundery, derived from OSM):
 
 | Data Source | What it is | What you'll use it for |
 |---|---|---|
-| 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap) | A free, community-built map of the world — like Wikipedia for maps | Estimating the total length of roads, sidewalks, bike lanes, and bus lanes |
+| 🗺️ [OpenStreetMap](https://wiki.openstreetmap.org/wiki/About_OpenStreetMap), OSM | A free, community-built map of the world, like 'Wikipedia for maps' | Estimating the total length of roads, sidewalks, bike lanes, and bus lanes |
 | 👥 [WorldPop](https://www.worldpop.org/about/) | An open dataset of population estimates at high spatial resolution | Estimating the population of your assigned area |
 
-To work with this data, you first need to install a few Python **libraries** — ready-made toolkits written by other developers that handle the heavy lifting for you, so you don't have to write everything from scratch.
+To work with these datasets, you first need to have a few **packages** installed. These are extensions providing functions meaning you don't have to write things from scratch in low-level Python code.
 
-> ⏱️ **This step may take 1–2 minutes.** You may see a lot of text appear in the output box — that's normal! Just wait for the **"Complete"** message before moving on.
+> ⏱️ **This step may take a few minutes.** 
 
-▶️ **Run the cell below to install the libraries, if not already installed.**
+▶️ **Run the cell below to install the packages, if not already installed.**
 
 ```python
 #| collapsed: true
@@ -114,7 +125,7 @@ The following code chunk downloads three datasets needed for your analysis:
 
 ```{python}
 #| collapsed: true
-# Import the libraries from the previous step
+# Import the packages from the previous step
 import osmnx as ox       # Download OSM data
 import worldpoppy as wp  # Download and WorldPop data
 import geopandas as gpd

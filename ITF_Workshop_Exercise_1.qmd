@@ -3,10 +3,6 @@ title: 🚦 ITF Transport Data, Statistics and Modelling Workshop — Exercise 1
 jupyter: python3
 ---
 
-
----
-
-
 This exercise walks you through five core transport planning tasks using open data:
 
 | | Task | What you'll do |
@@ -31,9 +27,6 @@ By the end, you'll have a clearer sense of how open data can generate transport 
 You've been asked to assess transport infrastructure in a Ukrainian city you're not familiar with — and with no official data, or enough budget or time to collect it yourself.
 
 **Your goal:** find the total length of roads, sidewalks and bike lanes in your assigned area, then divide by population to produce a **per-person infrastructure availability metric** you can compare with other places in Ukraine and beyond.
-
-
----
 
 
 ## ▶️ How to Run the Code
@@ -67,13 +60,11 @@ To work with this data, you first need to install a few Python **libraries** —
 
 > ⏱️ **This step may take 1–2 minutes.** You may see a lot of text appear in the output box — that's normal! Just wait for the **"Complete"** message before moving on.
 
-▶️ **Run the cell below to install the libraries.**
+▶️ **Run the cell below to install the libraries, if not already installed.**
 
-```{python}
+```python
 #| collapsed: true
-!pip install -q osmnx worldpoppy --no-color
-
-print("Complete")
+!pip install -q osmnx worldpoppy
 ```
 
 ### 🏙️ Task 2: Choose a City
@@ -102,7 +93,8 @@ Replace "Dnipro" in the code below:
 ▶️ **Once you've made your edit, run the cell.**
 
 ```{python}
-city = "Dnipro"  # <-- Replace with your chosen city, e.g. "Lviv"
+city = "Dnipro"  # <-- Replace with your chosen city
+print(f"City set to: {city}")
 ```
 
 ### 🗂️ Task 3: Import the Data
@@ -113,7 +105,7 @@ The following code chunk downloads three datasets needed for your analysis:
 2. **Transport network**: roads, footpaths, bike lanes, and other transport links within that boundary from OpenStreetMap
 3. **Population estimates**: a 100 m resolution population grid covering your city is fetched from WorldPop, which will later be used to calculate per-person infrastructure figures
 
-> ⏱️ **This step may take 3-4 minutes** depending on the size of your city. You'll see some output appear as the data downloads — this is normal. Wait for the **"Complete"** message before moving on.
+> ⏱️ **This step may take a few minutes** depending on the size of the city and download speeds. You should see some output appear as the data downloads. Wait for the **"Complete"** message before moving on.
 
 ▶️ **Run the cell below to import the data.**
 

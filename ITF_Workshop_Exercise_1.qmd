@@ -380,24 +380,23 @@ plt.tight_layout()
 plt.show()
 ```
 
-Exercise: look at the OSM wiki describing how bicycle infrastructure is tagged in OpenStreetMap: https://wiki.openstreetmap.org/wiki/Key:cycleway. Can you identify any potential limitations of the method used in the code above to identify bike lanes? How might you improve it?
-
 ### 📊 Task 7: Interpret and Evaluate the Results
 
-You've now calculated infrastructure availability per person for your assigned city. But what do these numbers actually mean? This task asks you to think critically about the results and consider what they tell us — and don't tell us — about transport needs.
+You've now created a basic estimate of infrastructure length per person. But what do these numbers actually mean? This task asks you to think critically about the results and consider what they tell us, and don't tell us.
 
 There is no code to run in this task. Instead, read through the questions below and discuss them with your group.
 
----
-
 #### 🔍 Part 1: Sense-check your results
 
-Before drawing any conclusions, it's worth asking whether your numbers are plausible.
+Before drawing any conclusions, it's worth asking whether the numbers are plausible.
 
 1. **How complete do you think the OpenStreetMap data is for your city?** Recall what you observed in Tasks 4 and 5. Are there infrastructure types that seem underrepresented — for example, very few bike lanes or bus lanes?
+
 2. **The WorldPop population estimate may differ from official census figures.** Does the figure produced by the tool seem reasonable? If it's higher or lower than expected, how might that affect your per-person metrics?
 
----
+3. **Exercise:** look at the OSM wiki describing how bicycle infrastructure is tagged in OpenStreetMap: https://wiki.openstreetmap.org/wiki/Key:cycleway. Can you identify any potential limitations of the method used in the code above to identify bike lanes? How might you improve it?
+
+<!-- Answer: the method finds only highway=cycleway or cycleway=yes, but there are many other ways that bike lanes can be tagged, such as cycleway:left=lane or cycleway:right=track. To improve it, you could expand the mask to include these additional tags. -->
 
 #### 🌍 Part 2: Compare with other cities
 

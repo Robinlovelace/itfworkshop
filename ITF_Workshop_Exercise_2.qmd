@@ -1,6 +1,8 @@
 ---
 title: 🚦 ITF Transport Data, Statistics and Modelling Workshop — Exercise 2
 jupyter: python3
+execute:
+    cache: true
 ---
 
 
@@ -112,7 +114,13 @@ city = "Donetsk, Donetsk Oblast"
 
 ```{python}
 city = "YOUR CITY HERE"
-print("You have selected:", city)
+
+if city == "YOUR CITY HERE":
+    city = "Kyiv"
+    print("No city entered; defaulting to:", city)
+else:
+    print("You have selected:", city)
+
 print("Complete")
 ```
 
@@ -164,7 +172,7 @@ NUM_X_BLOCKS = 12
 NUM_Y_BLOCKS = 12
 
 # Where to save outputs
-OUTPUT_DIR = "/content/grid2demand_output"
+OUTPUT_DIR = os.path.join(os.getcwd(), "cache", "grid2demand_output")
 ```
 
 ### 🌍 Cell 2: Download data

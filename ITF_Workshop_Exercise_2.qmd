@@ -6,15 +6,13 @@ execute:
 ---
 
 
----
-
 In this exercise, you will build an **origin-destination (OD) demand matrix** for a Ukrainian city of your choice, then assign that demand to the road network to estimate traffic flows on individual streets.
 
-By the end, you will have quantitative evidence you can use to support real transport planning decisions — and working code you can adapt for your own future needs.
+The aim is to demonstrate how different data sources can be processed using reproducible code that you can adapt for your own future needs and share for the benefit of others.
 
-The emphasis in this exercise is on **understanding, interpreting, and applying results** — not on coding. To keep things focused, the Python code in this exercise is hidden.
+The emphasis in this exercise is on **understanding, interpreting, and applying results**, not on coding. To keep things focused, the Python code in this exercise is hidden by default.
 
-Before each step, a short explanation describes what the code is doing and why. You don't need to read or understand the code itself — just follow the instructions, run each cell, and focus on what the outputs tell you.
+The tasks focus on running each cell and thinking about the results.
 
 
 | | Task | What you'll do |
@@ -22,13 +20,8 @@ Before each step, a short explanation describes what the code is doing and why. 
 | 📥 | **Extract** | Pull road network and spatial data from OpenStreetMap |
 | 🔢 | **Estimate demand** | Build an origin-destination matrix of travel demand |
 | ✂️ | **Assign flows** | Distribute that demand across the city street network |
-| 📐 | **Calculate** | Derive useful performance indicators |
-| 🗺️ | **Visualise & interpret** | Map results and develop evidence-based policy recommendations |
-
-> 💡 **No coding experience needed.** Just like before, all of the Python code is already written — just follow the step-by-step instructions and run each cell in order.
-
----
-
+| 📐 | **Calculate** | Calculate basic indicators |
+| 🗺️ | **Visualise & interpret** | Map results, which could be used to support evidence-based policy recommendations |
 
 ## 📋 Your Assignment
 

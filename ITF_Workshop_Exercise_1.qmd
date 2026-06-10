@@ -380,6 +380,8 @@ plt.tight_layout()
 plt.show()
 ```
 
+Exercise: look at the OSM wiki describing how bicycle infrastructure is tagged in OpenStreetMap: https://wiki.openstreetmap.org/wiki/Key:cycleway. Can you identify any potential limitations of the method used in the code above to identify bike lanes? How might you improve it?
+
 ### 📊 Task 7: Interpret and Evaluate the Results
 
 You've now calculated infrastructure availability per person for your assigned city. But what do these numbers actually mean? This task asks you to think critically about the results and consider what they tell us — and don't tell us — about transport needs.

@@ -257,7 +257,7 @@ print(f"Grid dimensions: {pop_data.sizes['y']} rows x {pop_data.sizes['x']} colu
 print(f"Total cells: {pop_data.sizes['y'] * pop_data.sizes['x']:,}")
 print(f"Total estimated population: {pop_data.sum().item() / 1e6:.2f} million")
 print(f"Cells with zero population: {missing_cells + zero_cells:,} cells ({(missing_cells + zero_cells) / total_cells * 100:.1f}% of total)")
-print(f"\nPopulation per km² statistics:")
+print(f"\nPopulation per hectare statistics:")
 print(f"  Minimum: {pop_data.min().item():.1f}")
 print(f"  Maximum: {pop_data.max().item():.1f}")
 print(f"  Mean:    {pop_data.mean().item():.1f}")

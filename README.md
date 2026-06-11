@@ -55,7 +55,12 @@ pixi run render
 
 # Or start a live preview
 pixi run start
+
+# Sync requirements.txt if dependencies in pixi.toml change
+pixi run sync-reqs
 ```
+
+Dependencies are managed in [pixi.toml](pixi.toml) (see [Pixi dependencies documentation](https://pixi.sh/latest/features/dependencies/)). The `sync-reqs` task (see [Pixi tasks documentation](https://pixi.sh/latest/features/tasks/)) regenerates [requirements.txt](requirements.txt) to keep containerized environments updated without manual duplication.
 
 ---
 

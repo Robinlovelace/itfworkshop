@@ -9,6 +9,7 @@ version = "0.1.0"
 render = "QUARTO_PYTHON=$(pixi run which python) quarto render ukrainian-flows.qmd"
 render-all = "QUARTO_PYTHON=$(pixi run which python) quarto render"
 start = "QUARTO_PYTHON=$(pixi run which python) quarto preview"
+sync-reqs = "python -c \"import tomllib; data = tomllib.load(open('pixi.toml', 'rb')); deps = set(data.get('dependencies', {}).keys()) | set(data.get('pypi-dependencies', {}).keys()); deps.discard('python'); open('requirements.txt', 'w').write('\\n'.join(sorted(deps)) + '\\n')\""
 
 [dependencies]
 python = ">=3.14.5,<3.15"
@@ -21,3 +22,16 @@ ipykernel = ">=7.2.0,<8"
 pyyaml = ">=6.0.3,<7"
 jupyter = ">=1.1.1,<2"
 notebook = ">=7.5.7,<8"
+osmnx = ">=1.9.0"
+matplotlib = ">=3.8.0"
+networkx = ">=3.0"
+scipy = ">=1.12.0"
+contextily = ">=1.6.0"
+numpy = ">=2.0.0"
+shapely = ">=2.0.0"
+
+[pypi-dependencies]
+worldpoppy = "*"
+grid2demand = "*"
+osm2gmns = "*"
+

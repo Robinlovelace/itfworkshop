@@ -3,8 +3,9 @@ title: "Ukrainian Refugee Flows — Animated Map"
 format: html
 number-sections: false
 execute:
-  message: false
-  warning: false
+    cache: true
+    message: false
+    warning: false
 ---
 
 ## About

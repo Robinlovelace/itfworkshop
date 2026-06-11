@@ -74,9 +74,9 @@ Source: [statistics.gov.uk](https://geoportal.statistics.gov.uk/documents/ons::l
 :::
 
 ::: {.column width="50%"}
-<!-- ![](images/paste-1.png) -->
+<!-- ![](images/slide_image1.png) -->
 
-![](images/paste-2.png)
+![](images/slide_image2.png)
 :::
 :::::
 

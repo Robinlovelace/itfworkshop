@@ -9,3 +9,4 @@ __pycache__/
 .pixi/*
 !.pixi/config.toml
 *cache*
+cache/

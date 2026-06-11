@@ -1,35 +1,55 @@
 ---
 number-sections: false
+execute:
+  cache: true
 ---
 
 # ITF Transport Data, Statistics and Modelling Workshop
 
-> **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros). This website is deployed from a [fork](https://github.com/Robinlovelace/itfworkshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
+> **Code credit:** Exercises 1 and 2 were written by [Nick Caros](https://github.com/ncaros).
+> This website is deployed from a [fork](https://github.com/Robinlovelace/itfworkshop) of his [original repository](https://github.com/ncaros/ukraine-workshop).
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/Robinlovelace/itfworkshop?quickstart=1)
 
 This repository accompanies a contribution to the **ITF conference on transport data, statistics and modelling in Ukraine** (12 June 2026).
 
-**Keynote:** [Building a Community of Transport Statistics and Modelling Practitioners in Ukraine](slides.qmd) — drawing on experiences with open data, open source tools, and reproducible workflows in transport planning.
+**Keynote:** [Building a Community of Transport Statistics and Modelling Practitioners in Ukraine](slides.qmd), drawing on experiences with open data, open source tools, and reproducible workflows in transport planning.
 
 ## Workshop Agenda
 
-- **11:30 – 12:30** Interactive Exercise, Part 1 — emerging transport data sources
-- **13:30 – 14:30** Case studies: emerging methods for transport statistics and modelling
-- **14:30 – 15:30** Interactive Exercise, Part 2 — urban travel demand modelling
-- **16:00 – 17:00** Keynote speeches and open discussion
-- **17:00 – 17:30** Recap and closing
+-   **11:30 – 12:30** Interactive Exercise, Part 1 — emerging transport data sources
+-   **13:30 – 14:30** Case studies: emerging methods for transport statistics and modelling
+-   **14:30 – 15:30** Interactive Exercise, Part 2 — urban travel demand modelling
+-   **16:00 – 17:00** Keynote speeches and open discussion
+-   **17:00 – 17:30** Recap and closing
 
 ## Exercises
 
-- **[Exercise 1:](ITF_Workshop_Exercise_1.qmd)** Open Data for Transport Planning — extract, check, manipulate, calculate, and visualise open data for a Ukrainian city.
-- **[Exercise 2:](ITF_Workshop_Exercise_2.qmd)** OD Demand & Network Assignment — build an origin-destination demand matrix and assign flows to the road network.
+-   [**Exercise 1:**](ITF_Workshop_Exercise_1.qmd) Open Data for Transport Planning — extract, check, manipulate, calculate, and visualise open data for a Ukrainian city.
+-   [**Exercise 2:**](ITF_Workshop_Exercise_2.qmd) OD Demand & Network Assignment — build an origin-destination demand matrix and assign flows to the road network.
+
+## To run the code
+
+There are several options for running the code:
+
+1.  **IPython/Jupyter Notebook**: You can run the code in a Jupyter Notebook environment. Install the required libraries (e.g., `osmnx`, `worldpoppy`, `geopandas`) and copy the code into a notebook cell to execute it.
+2.  **GitHub Codespaces**: Click the "Open in GitHub Codespaces" button at the top of this page to launch a cloud-based development environment with all dependencies pre-installed. This is the recommended option for ease of use.
+3.  **Local Python Environment**: If you prefer to run the code locally, ensure you have Python installed along with the necessary libraries. You can use a virtual environment to manage dependencies. Clone the repository and run the code in VSCode (or) another IDE if you have it set up.
+
+After opening the repo in VSCode you should choose something like the following.
+You can choose whether to run the code chunks in Jupyter notebooks or Quarto (shown below).
+
+![](images/paste-1.png)
 
 ## Source
 
-The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).  
+The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).\
 This Quarto website version is maintained at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).
 
-## Further resources
+## Further reading
 
-- **[Ukrainian Refugee Flows](ukrainian-flows.qmd)** — animated map of refugees from Ukraine by country of asylum (2022–2025), using data from the UNHCR Refugee Statistics API.
+For more context and options to run the materials:
+-   [**Ukrainian Refugee Flows**](ukrainian-flows.qmd) — animated map of refugees from Ukraine by country of asylum (2022–2025), using data from the UNHCR Refugee Statistics API.
+-   [**Rendered Website**](http://robinlovelace.net/itfworkshop/) — view the fully rendered Quarto website.
+-   [**GitHub Codespaces**](https://github.com/Robinlovelace/itfworkshop) — launch a cloud-based development environment (requires a GitHub account) using the fork repository.
+-   [**Original Repository**](https://github.com/ncaros/ukraine-workshop) — explore the original source code developed by Nick Caros.

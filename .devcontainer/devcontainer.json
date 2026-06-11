@@ -12,5 +12,6 @@
 				"ms-toolsai.jupyter"
 			]
 		}
-	}
+	},
+	"postCreateCommand": "bash .devcontainer/setup.sh"
 }

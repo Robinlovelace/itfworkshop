@@ -82,3 +82,13 @@ No coding experience is required. The notebooks are self-contained and all code 
 ## Context
 
 These exercises were developed for an ITF workshop for Ukrainian transport planners, officials and academics, held in Kyiv on 12 June 2026. While the exercises are designed for Ukrainian cities, the methodology is general and can be adapted to any city with OpenStreetMap coverage.
+
+---
+
+## Further reading
+
+For more context and options to run the materials:
+* **Rendered Website:** View the fully rendered Quarto website at [robinlovelace.net/itfworkshop/](http://robinlovelace.net/itfworkshop/).
+* **GitHub Codespaces:** Launch a cloud-based development environment (requires a GitHub account) using the repository at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).
+* **Original Repository:** Explore the original source code developed by Nick Caros at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).
+

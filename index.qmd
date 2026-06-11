@@ -46,6 +46,10 @@ You can choose whether to run the code chunks in Jupyter notebooks or Quarto (sh
 The original workshop repository is at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).\
 This Quarto website version is maintained at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).
 
-## Further resources
+## Further reading
 
+For more context and options to run the materials:
 -   [**Ukrainian Refugee Flows**](ukrainian-flows.qmd) — animated map of refugees from Ukraine by country of asylum (2022–2025), using data from the UNHCR Refugee Statistics API.
+-   [**Rendered Website**](http://robinlovelace.net/itfworkshop/) — view the fully rendered Quarto website.
+-   [**GitHub Codespaces**](https://github.com/Robinlovelace/itfworkshop) — launch a cloud-based development environment (requires a GitHub account) using the fork repository.
+-   [**Original Repository**](https://github.com/ncaros/ukraine-workshop) — explore the original source code developed by Nick Caros.

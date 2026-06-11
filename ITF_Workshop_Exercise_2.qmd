@@ -784,7 +784,15 @@ Click the link below to open the group Padlet. no account or login needed:
    - One limitation of the analysis a decision-maker should be aware of
 5. Click **Publish** to share with the group
 
+> 💡 **Remember:** the goal of this exercise is not to produce a perfect model: it is to demonstrate how open-source tools can generate credible, evidence-based insights quickly and at low cost. A good transport planner knows both how to use these tools *and* how to communicate their limitations honestly.
+
 ---
 
-> 💡 **Remember:** the goal of this exercise is not to produce a perfect model: it is to demonstrate how open-source tools can generate credible, evidence-based insights quickly and at low cost. A good transport planner knows both how to use these tools *and* how to communicate their limitations honestly.
+## 📚 Further Reading
+
+For more context and options to run the materials:
+* **Rendered Website:** View the fully rendered Quarto website at [robinlovelace.net/itfworkshop/](http://robinlovelace.net/itfworkshop/).
+* **GitHub Codespaces:** Launch a cloud-based development environment (requires a GitHub account) using the repository at [github.com/Robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop).
+* **Original Repository:** Explore the original source code developed by Nick Caros at [github.com/ncaros/ukraine-workshop](https://github.com/ncaros/ukraine-workshop).
+
 

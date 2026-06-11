@@ -537,9 +537,10 @@ print(f"\n✅ Complete — OD matrix normalised to population-based estimate")
 
 ### 🚦Cell 3 — Route trips across the network
 
-This is the core of the traffic assignment. For each origin zone, the model calculates the shortest path to every destination zone in a single efficient pass, then adds the estimated trip volumes onto every street segment along each route. By the time every origin has been processed, each street in the network has accumulated a total estimated flow — the sum of all trips routed across it.
+For each origin zone, the model calculates the shortest path to every destination zones, then adds the estimated trip volumes onto every street segment along each route. By the time every origin has been processed, each street in the network has accumulated a total estimated flow: the sum of all trips routed across it.
 
-> 💡 This approach — routing demand along shortest paths — is known as **all-or-nothing assignment**. It is one of the simplest and most widely used methods in transport modelling, and a natural starting point when detailed behavioural data is unavailable.
+
+> 💡 This approach — routing demand along shortest paths — is known as **all-or-nothing assignment** (AoN). It is one of the simplest and most widely used methods in transport modelling, and a natural starting point when detailed behavioural data is unavailable. Alternative route assignment approaches are possible, including the probabilistic routing algorithm used in the Python package [`madina`](https://madinadocs.readthedocs.io/en/latest/).
 
 
 > ⏳ **Heads up — Cell 4 may take several minutes to run.** The model is calculating shortest paths across the entire street network for every zone in your grid. Progress will be printed as it runs — so sit back and let it work!

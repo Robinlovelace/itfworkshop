@@ -429,7 +429,7 @@ This happens in the following steps:
 
 ### 🔧 Cell 1 — Project network and map zones to nodes
 
-Before any routing can happen, the model needs to work in metric coordinates (metres, not latitude/longitude) so that distances are meaningful. This cell reprojects the street network accordingly, then solves a practical problem: the OD matrix talks about zones, but routing happens between actual locations (buildings and streets). So for each zone, the model finds the nearest intersection and uses that as the entry point into the network — a process called snapping.
+The cell below transforms the network dataset into a projected coordinate system, giving them units of metres, not latitude/longitude, making distances meaningful (see [Chapter 6 of Geocomputation with Python](https://py.geocompx.org/06-reproj) for details). It also snaps zone centroids to the nearest intersection and uses that as the entry point into the network.
 
 ```{python}
 #| cellView: form

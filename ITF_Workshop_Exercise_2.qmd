@@ -465,7 +465,7 @@ def nearest_node(coord):
 # -------------------------------------------------------
 # STEP 3 — Project zone centroids and snap to network nodes
 # -------------------------------------------------------
-print("Snapping zone centroids to network nodes...")
+print("Linking zone centroids to network nodes...")
 
 zone_node_map = {}
 for zone_id, z in g2d.zone_dict.items():

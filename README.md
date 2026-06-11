@@ -20,6 +20,9 @@ Build an origin-destination demand matrix using a gravity model, assign estimate
 
 Both exercises run in **Google Colab** — no local installation needed.
 
+*   👉 [**Open Exercise 1 in Google Colab**](https://colab.research.google.com/github/Robinlovelace/itfworkshop/blob/main/ITF_Workshop_Exercise_1.ipynb)
+*   👉 [**Open Exercise 2 in Google Colab**](https://colab.research.google.com/github/Robinlovelace/itfworkshop/blob/main/ITF_Workshop_Exercise_2.ipynb)
+
 1. Click the link for the exercise you want to open
 2. Sign in to a Google account if prompted
 3. Go to **File → Save a copy in Drive** before making any changes

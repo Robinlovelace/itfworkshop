@@ -492,19 +492,17 @@ demand_df["d_node"] = demand_df["d_node"].astype(int)
 print(f"OD pairs to route: {len(demand_df):,}")
 ```
 
-### 👥 Cell 2 — Normalise OD matrix to realistic trip volumes
+### 👥 Cell 2 — Normalise OD matrix to trip volumes
 
-The raw gravity model produces trip volumes that are not calibrated to Ukrainian cities — the absolute numbers of trips can be unrealistic, even if the spatial pattern (which corridors are busiest) is plausible. To fix this, we rescale the entire OD matrix so that total daily trips matches a realistic estimate based on the city's population.
+The raw gravity model produces uncalibrated values. To fix this, we rescale the entire OD matrix so that total daily trips matches a realistic estimate based on the city's population.
 
  **Enter your city's population in the code box below**. It will look like this:
 
  `total_population = 1000000  # ← Replace with your city's population`
 
- You can use the WorldPop figure from Exercise 1, or a published estimate such as Wikipedia or the State Statistics Service of Ukraine.
+ You can use a value from Exercise 1, or elsewhere.
 
- 💡 To find your WorldPop figure from Exercise 1: scroll to the output of the population download cell — it will have printed a line reading "Total population in study area: XXX,XXX". Use that number here.
-
-We assume each resident makes 2.1 trips per day on average — a figure drawn from a household mobility survey conducted in Poltava, Ukraine in 2018, which is the best available published estimate for a Ukrainian city. Note that this is a pre-war figure and actual travel rates may vary between cities and have likely shifted since 2022. As with any population-based estimate, it also represents a conservative lower bound: it counts only residents, whereas the real network also serves commuters and visitors from surrounding areas.
+The code below assumes each resident makes 2.1 trips per day on average, based on a household mobility survey conducted in Poltava, Ukraine in 2018. Travel patterns have obviously shifted since 2022. Note: it counts only residents, whereas the real network also serves visitors from surrounding areas.
 
 ```{python}
 ### 👥 Cell 2 — Normalise OD matrix to realistic trip volumes

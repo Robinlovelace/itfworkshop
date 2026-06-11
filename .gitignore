@@ -8,3 +8,4 @@ __pycache__/
 # pixi environments (not the config or lockfile)
 .pixi/*
 !.pixi/config.toml
+*cache*

@@ -257,11 +257,15 @@ A pilot project is a fantastic way to demonstrate value and build momentum.
 Events like this are a perfect opportunity to build networks that will support a community of practice.
 :::
 
-## What we can learn from Ukraine
-
-![](images/paste-4.png)
+## What we can learn from Ukraine {background-image="images/paste-4.png" background-opacity="0.3"}
 
 Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)
+
+::: notes
+- Rapid adoption of new technologies.
+- Dealing with network disruptions.
+- Building resilience in the face of external shocks.
+:::
 
 ```{=html}
 <!-- ## Reproducible environments

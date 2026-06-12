@@ -197,13 +197,16 @@ This kind of analysis is reproducible and can be adapted to any city where you h
 [Results](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R) that are open access can be seen 'de-silo' transport planning.
 <!-- Skill: web development (or at least collaboration with web developers/AI tools to build web interfaces). -->
 
-<iframe src="files/basic_flowmap.html" width="100%" height="500px" style="border: none;"></iframe>
+<iframe src="files/basic_flowmap.html" width="100%" height="500px" style="border: none;">
+
+</iframe>
 
 ::: notes
 This video demonstrates the kind of interactive, reproducible analysis that open tools enable.
 The data comes from Spain's national mobility survey, accessed through the community-maintained `spanishoddata` package.
 :::
 
+```{=html}
 <!-- ## Case Study: National-Scale Planning (UK)
 
 From local data to national strategy.
@@ -220,10 +223,11 @@ This is a real-world example of building capacity at a national level.
 Because the methodology is open, local authorities can understand, trust, and challenge the recommendations.
 This demonstrates how a national body can empower local and regional planners.
 ::: -->
+```
 
 ## Case Study: Open OD Data in Spain
 
--   The `spanishoddata` R package provides access to Spain's national origin-destination mobility survey.
+-   The `spanishoddata` R package provides access to open origin-destination data [@kotov2026]
 -   It is a community-driven project, adopted by **rOpenSpain**, ensuring long-term maintenance.
 -   Used by researchers and public bodies, including the **Spanish Ministry of Transport**.
 -   A successful model of collaboration between government, academia, and the open-source community.
@@ -235,12 +239,13 @@ This creates a virtuous cycle — better tools lead to more use, which justifies
 
 ## Making it Happen in Ukraine
 
+**Caveat:** No one-size-fits-all solution, may be possible to leapfrog some challenges!
+
 How can these principles be applied?
 
-1.  **Start with a Data Audit:** What data exists? What format is it in? What can be opened?
-2.  **Run a Pilot Project:** Choose a specific problem and solve it with open tools.
-3.  **Invest in Training:** Build skills in R or Python for spatial data analysis.
-4.  **Foster Collaboration:** Share data, code, and experiences with colleagues facing similar challenges.
+1.  **Data Audits:** What data exists? What format is it in? What can be opened?
+2.  **Pilot Project:** Choose a specific problem/region to test solutions **that can scale nationally**.
+3.  **Invest in Training and collaboration:** Build future-proof skills, including efficient use of AI.
 
 ::: notes
 The journey starts with a single step.

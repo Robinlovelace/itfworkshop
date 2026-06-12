@@ -1,7 +1,7 @@
 {
 	"name": "Transport data science container",
 	// Use pre-built image by default:
-	"image": "ghcr.io/tdscience/tartu26:latest",
+	"image": "ghcr.io/tdscience/tartu26",
 	"customizations": {
 		"vscode": {
 			"extensions": [

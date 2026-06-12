@@ -240,7 +240,7 @@ The government releases the data and the community builds the tools to make it a
 
 ## Example: Propensity to Cycle Tool
 
-Open access tool used by local authorities across England [@Lovelace2017]
+[pct.bike](https://www.pct.bike/) now used by local authorities across England [@Lovelace2017]
 
 Variants building on it deployed in [Ireland](https://www.cruse.bike/), [Scotland](https://npt.scot), [Portugal ](https://biclar.tmlmobilidade.pt/index/)and beyond.
 

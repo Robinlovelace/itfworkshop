@@ -170,11 +170,13 @@ Adopting international standards like GTFS is crucial — it makes data interope
 OpenStreetMap is a powerful, free resource for transport network data.
 :::
 
-## Solution 2: open source tools
+## Solution 2: open source tools and materials
 
 Powerful, free, and adaptable tools for transport analysis.
 
 -   **Python and R Ecosystems:** Mature libraries for data science, statistics, and visualisation.
+    -  Free teaching materials including Geocomputation with R's Transport chapter [@lovelaceGeocomputation2025], Geocomputation with Python [@dormanGeocomputationPython2025] and Applied Geostatistics with Python [@pyrczAppliedGeostatisticsPython2024].  
+    - There is so much content out there, updated every month, it's worth searching online for the latest resources, and getting in touch with authors.
 -   **Python libraries:** `osmnx` for OpenStreetMap, `geopandas` for spatial data, `grid2demand` for demand modelling, `madina` for urban network analysis [@sevtsukMadinaPythonPackage2025a].
 -   **These tools can be adapted** to local needs and data sources, and extended
 
@@ -185,7 +187,9 @@ Capacity building is not just about tools, it's about people.
 -   A Community of Practice is a group who "share a concern for something they do and learn how to do it better as they interact regularly."
 -   Open source projects naturally foster these communities.
 -   Examples: rOpenSci, QGIS user groups, transport modelling forums.
--   **Key takeaway:** To build capacity, invest in building communities.
+-   To build capacity, invest in building communities, they don't just happen, they must be built.
+
+**Personal connections are more important than platforms.**
 
 ::: notes
 The image shows an analysis of travel patterns done entirely with open-source tools and open data.
@@ -259,7 +263,23 @@ Events like this are a perfect opportunity to build networks that will support a
 
 Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)
 
-## Future directions: new data & new challenges
+```{=html}
+<!-- ## Reproducible environments
+
+![](images/paste-2.png)
+
+Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser -->
+```
+
+## Links and future directions {background-image="images/paste-3.png" background-opacity="0.5"}
+
+-   Sustainable capacity is built on **open data, open tools, and an open community.**
+-   Slides and code: `github.com/robinlovelace/itfworkshop`
+-   Related materials: `tdscience.github.io/tartu26/`
+-   Contact: `r.lovelace@leeds.ac.uk`
+
+::: notes
+Future directions: new data & new challenges
 
 The landscape is always changing.
 
@@ -269,27 +289,11 @@ The landscape is always changing.
     -   **Privacy & Ethics:** How do we use sensitive data responsibly?
     -   **Governance:** Who owns the data and the insights?
 
-::: notes
 We must be 'critical data scientists' and ask hard questions about bias, privacy, and ethics.
 Who is left out of these new datasets?
 How can we ensure that data-driven decisions are equitable?
 This is a key area where statistical offices have a vital role to play.
 :::
-
-```{=html}
-<!-- ## Reproducible environments
-
-![](images/paste-2.png)
-
-Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser -->
-```
-
-## Links {background-image="images/paste-3.png" background-opacity="0.5"}
-
--   Sustainable capacity is built on **open data, open tools, and an open community.**
--   Slides and code: `github.com/robinlovelace/itfworkshop`
--   Related materials: `tdscience.github.io/tartu26/`
--   Contact: `r.lovelace@leeds.ac.uk`
 
 ## References {scrollable="true"}
 

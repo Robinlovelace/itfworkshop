@@ -101,7 +101,8 @@ m2 <- maplibre(
     flows = df,
     flow_color_scheme = "Inferno",
     flow_dark_mode = TRUE,
-    flow_opacity = 0.8
+    flow_opacity = 0.8,
+    flow_time_column = "date"
   ) |>
   add_time_control(
     data = df,

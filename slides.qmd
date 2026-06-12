@@ -210,6 +210,21 @@ This video demonstrates the kind of interactive, reproducible analysis that open
 The data comes from Spain's national mobility survey, accessed through the community-maintained `spanishoddata` package.
 :::
 
+
+## Solution 5: open and reproducible environments
+
+<!-- https://robinlovelace.net/itfworkshop/images/paste-1.png -->
+
+![](images/paste-1.png)
+
+Flexible and open reproducible development environment using devcontainers and GitHub codespaces (Google Colab alternative).
+
+Source: [robinlovelace.net/itfworkshop](https://robinlovelace.net/itfworkshop/images/paste-1.png)
+
+<!-- ![](images/paste-2.png)
+
+Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser -->
+
 ```{=html}
 <!-- ## Case study: national-scale planning (UK)
 
@@ -228,6 +243,8 @@ Because the methodology is open, local authorities can understand, trust, and ch
 This demonstrates how a national body can empower local and regional planners.
 ::: -->
 ```
+
+
 
 ## Case study: open OD data in Spain
 
@@ -267,15 +284,6 @@ Events like this are a perfect opportunity to build networks that will support a
 **These are all things many countries are likely to need**
 
 **Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)**
-
-
-```{=html}
-<!-- ## Reproducible environments
-
-![](images/paste-2.png)
-
-Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser -->
-```
 
 ## Links and future directions {background-image="images/paste-3.png" background-opacity="0.5"}
 

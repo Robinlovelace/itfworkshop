@@ -3,9 +3,8 @@ title: "Ukrainian Refugee Flows — Animated Map"
 format: html
 number-sections: false
 execute:
-    cache: true
-    message: false
-    warning: false
+  message: false
+  warning: false
 ---
 
 ## About
@@ -16,43 +15,57 @@ The data shows **year-end stock figures** (total refugees recorded in each host 
 
 ## Load Data
 
+
 ```{python}
+import os
 import requests
 import pandas as pd
 import geopandas as gpd
 import plotly.express as px
 
-# Fetch refugee population data for Ukraine as country of origin
-all_items = []
-for year in range(2022, 2026):
-    url = f"https://api.unhcr.org/population/v1/population/?coo=UKR&coa_all=true&year={year}&limit=200"
-    resp = requests.get(url, headers={"Accept": "application/json"})
-    data = resp.json()
-    for item in data["items"]:
-        all_items.append({
-            "year": item["year"],
-            "country": item["coa_name"],
-            "iso_code": item["coa_iso"],
-            "refugees": int(item.get("refugees", 0) or 0),
-            "asylum_seekers": int(item.get("asylum_seekers", 0) or 0)
-        })
+csv_path = "ukraine_refugees.csv"
 
-df = pd.DataFrame(all_items)
-# Combine refugees + asylum seekers as "total displaced"
-df["total"] = df["refugees"] + df["asylum_seekers"]
+def download_data(path):
+    if os.path.exists(path):
+        return
+
+    # Fetch refugee population data for Ukraine as country of origin
+    all_items = []
+    for year in range(2022, 2026):
+        url = f"https://api.unhcr.org/population/v1/population/?coo=UKR&coa_all=true&year={year}&limit=200"
+        resp = requests.get(url, headers={"Accept": "application/json"})
+        data = resp.json()
+        for item in data["items"]:
+            all_items.append({
+                "year": item["year"],
+                "country": item["coa_name"],
+                "iso_code": item["coa_iso"],
+                "refugees": int(item.get("refugees", 0) or 0),
+                "asylum_seekers": int(item.get("asylum_seekers", 0) or 0)
+            })
+
+    df = pd.DataFrame(all_items)
+    # Combine refugees + asylum seekers as "total displaced"
+    df["total"] = df["refugees"] + df["asylum_seekers"]
+    # write to CSV for reference
+    df.to_csv(path, index=False)
+
+download_data(csv_path)
+```
+
+```{python}
+df = pd.read_csv("ukraine_refugees.csv")
 print(f"Data: {len(df)} rows, {df['year'].nunique()} years, {df['country'].nunique()} countries")
 df.head()
 ```
 
 ## World Map
 
-```{python}
+```python
 # Load country boundaries
-world = gpd.read_file("https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip")
-# Replace missing ISO codes (-99) with NaN
-world["ISO_A3"] = world["ISO_A3"].replace("-99", None)
+world = gpd.read_file(gpd.datasets.get_path("naturalearth_lowres"))
 # Merge with refugee data
-merged = world.merge(df, left_on="ISO_A3", right_on="iso_code", how="left")
+merged = world.merge(df, left_on="iso_a3", right_on="iso_code", how="left")
 merged["total"] = merged["total"].fillna(0).astype(int)
 
 fig = px.choropleth(
@@ -77,7 +90,7 @@ fig.show()
 
 ## Top Host Countries
 
-```{python}
+```python
 top = df.groupby("country")["refugees"].max().sort_values(ascending=False).head(15).index
 top_df = df[df["country"].isin(top)].copy()
 

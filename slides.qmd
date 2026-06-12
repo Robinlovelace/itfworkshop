@@ -287,7 +287,7 @@ Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/git
 ## Links {background-image="images/paste-3.png" background-opacity="0.5"}
 
 -   Sustainable capacity is built on **open data, open tools, and an open community.**
--   Slides and code: `github.com/robinlovelace/itf-workshop`
+-   Slides and code: `github.com/robinlovelace/itfworkshop`
 -   Related materials: `tdscience.github.io/tartu26/`
 -   Contact: `r.lovelace@leeds.ac.uk`
 

@@ -17,3 +17,29 @@
 #title-slide .date {
   color: #ffffff !important;
 }
+
+/* Make title slide text bolder and add text-shadow for readability */
+#title-slide .title,
+#title-slide h1.title {
+  font-weight: 800 !important;
+  font-size: 1.6em !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9) !important;
+}
+
+#title-slide .subtitle,
+#title-slide p.subtitle {
+  font-weight: 600 !important;
+  font-size: 1.1em !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}
+
+#title-slide .author,
+#title-slide .quarto-title-author-name,
+#title-slide .quarto-title-author-email,
+#title-slide .quarto-title-author-email a,
+#title-slide .quarto-title-affiliation,
+#title-slide .institute,
+#title-slide .date {
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9) !important;
+}

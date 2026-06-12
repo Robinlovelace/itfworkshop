@@ -81,6 +81,6 @@ m <- maplibre(
     flow_opacity = 0.8
   )
 
-message("Saving as files/a.html...")
-saveWidget(m, "files/a.html", selfcontained = TRUE)
-message("Done! Saved files/a.html")
+message("Saving as files/basic_flowmap.html...")
+saveWidget(m, "files/basic_flowmap.html", selfcontained = TRUE)
+message("Done! Saved files/basic_flowmap.html")

@@ -104,11 +104,19 @@ Thinking carefully about which level of government is best placed to make which 
 
 ## Problem: 'Just build on top of it' (Dependency)
 
+::::: columns
+::: {.column width="50%"}
 Most modelling systems are built on layers of legacy tools, data, and code that nobody fully understands.
 
-![](https://imgs.xkcd.com/comics/dependency.png){width="80%"}
+The temptation is always to add another layer rather than fix the foundations.
 
 Source: "Dependency" by Randall Munroe: [xkcd.com/2347/](https://xkcd.com/2347/)
+:::
+
+::: {.column width="50%"}
+![](https://imgs.xkcd.com/comics/dependency.png)
+:::
+:::::
 
 ::: notes
 This xkcd comic captures a fundamental truth about software — and by extension, transport modelling.
@@ -233,6 +241,35 @@ How can these principles be applied?
 The journey starts with a single step.
 A pilot project is a fantastic way to demonstrate value and build momentum.
 Events like this are a perfect opportunity to build networks that will support a community of practice.
+:::
+
+## Example: Refugee displacement flows from Ukraine
+
+An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
+
+```{=html}
+<style>
+  .flowmap-frame {
+    width: 100%;
+    height: clamp(420px, 72vh, 800px);
+    border: none;
+    border-radius: 4px;
+    display: block;
+  }
+</style>
+<iframe
+  src="files/a.html"
+  title="Refugee displacement flows from Ukraine"
+  class="flowmap-frame"
+  allow="geolocation; clipboard-write"
+>
+</iframe>
+```
+
+::: notes
+This flow map visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
+Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
+The interactive map supports pan, zoom, and hover tooltips for detailed exploration.
 :::
 
 ## Future Directions: New Data & New Challenges

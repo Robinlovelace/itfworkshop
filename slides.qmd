@@ -194,9 +194,8 @@ This kind of analysis is reproducible and can be adapted to any city where you h
 
 ## Solution 4: Openly available results
 
-Results that are open access can be seen 'de-silo' transport planning. Skill: web development (or at least collaboration with web developers/AI tools to build web interfaces).
-
-Source: [github.com/robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R)
+[Results](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R) that are open access can be seen 'de-silo' transport planning.
+<!-- Skill: web development (or at least collaboration with web developers/AI tools to build web interfaces). -->
 
 <iframe src="files/basic_flowmap.html" width="100%" height="500px" style="border: none;"></iframe>
 
@@ -291,8 +290,6 @@ Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/git
 
 ::: {#refs}
 :::
-
-## Appendix: Animated Map of Ukrainian Refugee Flows
 
 ## Example: Refugee displacement flows from Ukraine (video)
 

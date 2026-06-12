@@ -37,7 +37,7 @@ This is especially relevant for Ukraine, which is at a critical juncture in deve
 The principles I'll discuss today can help build a strong foundation for evidence-based policymaking.
 :::
 
-## The Challenge: The Data-to-Policy Gap
+## The challenge: the data-to-policy gap
 
 We have more data than ever before, but are we using it effectively?
 
@@ -100,19 +100,19 @@ Thinking carefully about which level of government is best placed to make which 
 
 ------------------------------------------------------------------------
 
-## Problem: Stop-start funding for transport
+## Problem: stop-start funding for transport
 
 Source: [github.com/itsleeds/uktransportauthorities](https://github.com/itsleeds/uktransportauthorities)
 
 ![](https://github.com/itsleeds/uktransportauthorities/raw/main/atf_allocations.gif){width="100%" style="display:block;margin:0;padding:0;"}
 
-## Problem: Proprietary 'black box' tools
+## Problem: proprietary 'black box' tools
 
 ![](images/paste-5.png)
 
 Source: @lovelace2021, source code: [github.com/robinlovelace](https://github.com/Robinlovelace/open-gat)
 
-## Problem: 'Just build on top of it' (Dependency)
+## Problem: 'just build on top of it' (dependency)
 
 ::::: columns
 ::: {.column width="50%"}
@@ -137,7 +137,7 @@ But building 'on top' of technical debt without addressing it leads to increasin
 An open, reproducible approach lets us acknowledge and manage this complexity rather than pretending it doesn't exist.
 :::
 
-## A Solution: Open & Reproducible Workflows
+## A solution: open & reproducible workflows
 
 Openness builds trust and empowers collaboration.
 
@@ -153,7 +153,7 @@ When methods are open, they can be scrutinized, validated, and improved by the c
 When educational resources are open access, they lower the barrier for people to learn these vital skills.
 :::
 
-## Solution 1: Open Data & Standards
+## Solution 1: open data & standards
 
 Good analysis starts with good data.
 
@@ -170,7 +170,7 @@ Adopting international standards like GTFS is crucial — it makes data interope
 OpenStreetMap is a powerful, free resource for transport network data.
 :::
 
-## Solution 2: Open Source Tools
+## Solution 2: open source tools
 
 Powerful, free, and adaptable tools for transport analysis.
 
@@ -178,7 +178,7 @@ Powerful, free, and adaptable tools for transport analysis.
 -   **Python libraries:** `osmnx` for OpenStreetMap, `geopandas` for spatial data, `grid2demand` for demand modelling, `madina` for urban network analysis [@sevtsukMadinaPythonPackage2025a].
 -   **These tools can be adapted** to local needs and data sources, and extended
 
-## Solution 3: Communities of Practice
+## Solution 3: communities of practice
 
 Capacity building is not just about tools, it's about people.
 
@@ -192,7 +192,7 @@ The image shows an analysis of travel patterns done entirely with open-source to
 This kind of analysis is reproducible and can be adapted to any city where you have the necessary data.
 :::
 
-## Solution 4: Openly available results
+## Solution 4: openly available results
 
 [Results](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R) that are open access can be seen 'de-silo' transport planning.
 <!-- Skill: web development (or at least collaboration with web developers/AI tools to build web interfaces). -->
@@ -207,7 +207,7 @@ The data comes from Spain's national mobility survey, accessed through the commu
 :::
 
 ```{=html}
-<!-- ## Case Study: National-Scale Planning (UK)
+<!-- ## Case study: national-scale planning (UK)
 
 From local data to national strategy.
 
@@ -225,7 +225,7 @@ This demonstrates how a national body can empower local and regional planners.
 ::: -->
 ```
 
-## Case Study: Open OD Data in Spain
+## Case study: open OD data in Spain
 
 -   The `spanishoddata` R package provides access to open origin-destination data [@kotov2026]
 -   It is a community-driven project, adopted by **rOpenSpain**, ensuring long-term maintenance.
@@ -237,7 +237,7 @@ The government releases the data and the community builds the tools to make it a
 This creates a virtuous cycle — better tools lead to more use, which justifies continued data release.
 :::
 
-## Making it Happen in Ukraine
+## Making it happen in Ukraine
 
 **Caveat:** No one-size-fits-all solution, may be possible to leapfrog some challenges!
 
@@ -259,7 +259,7 @@ Events like this are a perfect opportunity to build networks that will support a
 
 Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)
 
-## Future Directions: New Data & New Challenges
+## Future directions: new data & new challenges
 
 The landscape is always changing.
 
@@ -296,7 +296,7 @@ Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/git
 ::: {#refs}
 :::
 
-## Example: Refugee displacement flows from Ukraine (video)
+## Example: refugee displacement flows from Ukraine (video)
 
 An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
 

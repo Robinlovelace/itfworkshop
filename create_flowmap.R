@@ -15,7 +15,7 @@ df <- df |>
     count = refugees + asylum_seekers,
     year = year
   ) |>
-  mutate(date = as.Date(paste0(year, "-01-01")))
+  mutate(date = as.Date(paste0("2022-01-0", (year - 2021))))
 # Download and read country boundaries
 message("Downloading country boundaries...")
 if (!file.exists("ne_110m_countries.zip")) {
@@ -88,19 +88,7 @@ m <- maplibre(
     flow_dark_mode = TRUE,
     flow_opacity = 0.8
   )
-
 # Flowmap with timeline:
-# Replicate flows for every day of the year so they persist through daily animation steps
-df_expanded <- df |>
-  rowwise() |>
-  reframe(
-    origin = origin,
-    dest = dest,
-    count = count,
-    year = year,
-    date = seq(from = as.Date(paste0(year, "-01-01")), to = as.Date(paste0(year, "-12-31")), by = "day")
-  )
-
 m2 <- maplibre(
   style = carto_style("dark-matter"),
   center = c(25, 48),
@@ -110,13 +98,13 @@ m2 <- maplibre(
   add_flowmap(
     id = "ukraine-flows",
     locations = locations,
-    flows = df_expanded,
+    flows = df,
     flow_color_scheme = "Inferno",
     flow_dark_mode = TRUE,
     flow_opacity = 0.8
   ) |>
   add_time_control(
-    data = df_expanded,
+    data = df,
     time_column = "date",
     time_interval = "day",
     title = "Ukraine OD Flows"

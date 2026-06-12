@@ -22,6 +22,8 @@ title-slide-attributes:
   data-background-color: "#111111"
 ---
 
+# The Challenge
+
 ## Introduction
 
 -   **Who am I?** Professor of Transport Data Science at the University of Leeds, with 2 years experience working in the UK Civil Service (Head of Data and Digital, Active Travel England, part of the Department for Transport).
@@ -137,6 +139,8 @@ But building 'on top' of technical debt without addressing it leads to increasin
 An open, reproducible approach lets us acknowledge and manage this complexity rather than pretending it doesn't exist.
 :::
 
+# The Solution
+
 ## A solution: open & reproducible workflows
 
 Openness builds trust and empowers collaboration.
@@ -244,7 +248,7 @@ This demonstrates how a national body can empower local and regional planners.
 ::: -->
 ```
 
-
+# Case Studies & Applications
 
 ## Case study: open OD data in Spain
 
@@ -256,6 +260,22 @@ This demonstrates how a national body can empower local and regional planners.
 ::: notes
 The government releases the data and the community builds the tools to make it accessible.
 This creates a virtuous cycle — better tools lead to more use, which justifies continued data release.
+:::
+
+## Example: refugee displacement flows from Ukraine (video)
+
+An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
+
+<video width="100%" controls>
+
+<source src="files/ukraine_flowmap.mp4" type="video/mp4">
+
+Your browser does not support the video tag.
+</video>
+
+::: notes
+This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
+Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
 :::
 
 ## Making it happen in Ukraine
@@ -285,6 +305,8 @@ Events like this are a perfect opportunity to build networks that will support a
 
 **Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)**
 
+# Summary & Outlook
+
 ## Links and future directions {background-image="images/paste-3.png" background-opacity="0.5"}
 
 -   Sustainable capacity is built on **open data, open tools, and an open community.**
@@ -313,20 +335,4 @@ This is a key area where statistical offices have a vital role to play.
 ## References {scrollable="true"}
 
 ::: {#refs}
-:::
-
-## Example: refugee displacement flows from Ukraine (video)
-
-An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
-
-<video width="100%" controls>
-
-<source src="files/ukraine_flowmap.mp4" type="video/mp4">
-
-Your browser does not support the video tag.
-</video>
-
-::: notes
-This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
-Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
 :::

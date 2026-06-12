@@ -1,12 +1,21 @@
 library(sf)
-library(dplyr)
+library(tidyverse)
+message("You need to install the mapgl package from e-kotov.r-universe.dev...")
+# install.packages('mapgl', repos = c('https://e-kotov.r-universe.dev', 'https://cloud.r-project.org'))
 library(mapgl)
 library(htmlwidgets)
 
 # Read the Ukrainian refugee data
-df <- read.csv("ukraine_refugees.csv")
-df$total <- df$refugees + df$asylum_seekers
-
+df <- read_csv("ukraine_refugees.csv")
+df <- df |>
+  filter(!is.na(iso_code)) |>
+  transmute(
+    origin = "UKR",
+    dest = iso_code,
+    count = refugees + asylum_seekers,
+    year = year
+  ) |>
+  mutate(date = as.Date(paste0(year, "-01-01")))
 # Download and read country boundaries
 message("Downloading country boundaries...")
 if (!file.exists("ne_110m_countries.zip")) {
@@ -25,7 +34,7 @@ countries_shp <- st_read(
 countries_shp$iso <- countries_shp$ADM0_A3
 
 # Filter to countries in our dataset plus Ukraine as origin
-all_iso <- unique(c("UKR", df$iso_code))
+all_iso <- unique(c("UKR", df$dest))
 countries <- countries_shp |>
   filter(iso %in% all_iso) |>
   select(iso_code = iso, name = NAME)
@@ -42,25 +51,24 @@ locations <- data.frame(
 
 message("Locations prepared: ", nrow(locations), " countries")
 
-# Aggregate flows across all years (total for each destination)
-flows_agg <- df |>
-  group_by(iso_code) |>
-  summarise(count = sum(total, na.rm = TRUE), .groups = "drop") |>
-  filter(count > 0) |>
-  mutate(
-    origin = "UKR",
-    dest = iso_code
-  ) |>
-  select(origin, dest, count)
-
 # Check for unmatched IDs
-unmatched <- setdiff(unique(c(flows_agg$origin, flows_agg$dest)), locations$id)
+unmatched <- setdiff(unique(c(df$origin, df$dest)), locations$id)
 if (length(unmatched) > 0) {
   message("Unmatched IDs (not in Natural Earth 110m): ", paste(unmatched, collapse = ", "))
+  message("Percent of flows with unmatched IDs: ", round(sum(df$count[df$origin %in% unmatched | df$dest %in% unmatched]) / sum(df$count) * 100, 2), "%")
   # Filter these out
-  flows_agg <- flows_agg |>
+  df <- df |>
     filter(origin %in% locations$id, dest %in% locations$id)
 }
+
+
+# Aggregate flows across all years (total for each destination)
+flows_agg <- df |>
+  group_by(dest) |>
+  summarise(count = sum(count, na.rm = TRUE), .groups = "drop") |>
+  mutate(origin = "UKR") |>
+  filter(count > 0)
+
 
 message("Flows prepared: ", nrow(flows_agg), " destination countries")
 message("Total flows: ", sum(flows_agg$count))
@@ -81,6 +89,41 @@ m <- maplibre(
     flow_opacity = 0.8
   )
 
+# Flowmap with timeline:
+# Replicate flows for every day of the year so they persist through daily animation steps
+df_expanded <- df |>
+  rowwise() |>
+  reframe(
+    origin = origin,
+    dest = dest,
+    count = count,
+    year = year,
+    date = seq(from = as.Date(paste0(year, "-01-01")), to = as.Date(paste0(year, "-12-31")), by = "day")
+  )
+
+m2 <- maplibre(
+  style = carto_style("dark-matter"),
+  center = c(25, 48),
+  zoom = 3,
+  projection = "mercator"
+) |>
+  add_flowmap(
+    id = "ukraine-flows",
+    locations = locations,
+    flows = df_expanded,
+    flow_color_scheme = "Inferno",
+    flow_dark_mode = TRUE,
+    flow_opacity = 0.8
+  ) |>
+  add_time_control(
+    data = df_expanded,
+    time_column = "date",
+    time_interval = "day",
+    title = "Ukraine OD Flows"
+  )
+
 message("Saving as files/basic_flowmap.html...")
-saveWidget(m, "files/basic_flowmap.html", selfcontained = TRUE)
+saveWidget(m2, "files/basic_flowmap.html", selfcontained = TRUE)
 message("Done! Saved files/basic_flowmap.html")
+
+m2

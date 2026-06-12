@@ -108,7 +108,8 @@ m2 <- maplibre(
     data = df,
     time_column = "date",
     time_interval = "day",
-    title = "Ukraine OD Flows"
+    title = "Ukraine OD Flows",
+    speed = 150
   )
 
 message("Saving as files/basic_flowmap.html...")

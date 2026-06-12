@@ -1,5 +1,5 @@
 ---
-title: "Building a Community of Transport Statistics and Modelling Practitioners in Ukraine"
+title: "Building a Communities of Transport Practitioners"
 subtitle: "ITF Conference on Transport Data, Statistics and Modelling in Ukraine"
 format:
   clean-revealjs:
@@ -193,7 +193,7 @@ This kind of analysis is reproducible and can be adapted to any city where you h
 
 <video width="100%" controls>
 
-<source src="https://github.com/user-attachments/assets/21f17c02-b8c1-4a8d-aacd-140f41c40a0e" type="video/mp4">
+<source src="files/ukraine_flowmap.mp4" type="video/mp4">
 
 Your browser does not support the video tag.
 </video>

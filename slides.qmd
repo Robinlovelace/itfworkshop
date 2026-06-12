@@ -246,20 +246,6 @@ Variants building on it deployed in [Ireland](https://www.cruse.bike/), [
 
 ![](images/paste-6.png)
 
-## Example: refugee displacement flows from Ukraine (video)
-
-An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
-
-<video width="100%" controls>
-
-<source src="files/ukraine_flowmap.mp4" type="video/mp4">
-
-Your browser does not support the video tag. </video>
-
-::: notes
-This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend. Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
-:::
-
 ## Making it happen in Ukraine
 
 **Caveat:** No one-size-fits-all solution, may be possible to leapfrog some challenges!
@@ -312,4 +298,18 @@ We must be 'critical data scientists' and ask hard questions about bias, privacy
 ## References {scrollable="true"}
 
 ::: {#refs}
+:::
+
+## Example: refugee displacement flows from Ukraine (video)
+
+An interactive flow map. Reproducible code: github.com/robinlovelace/itfworkshop
+
+<video width="100%" controls>
+
+<source src="files/ukraine_flowmap.mp4" type="video/mp4">
+
+Your browser does not support the video tag. </video>
+
+::: notes
+This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend. Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
 :::

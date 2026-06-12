@@ -67,8 +67,17 @@ df.head()
 world = gpd.read_file("https://naturalearth.s3.amazonaws.com/110m_cultural/ne_110m_admin_0_countries.zip")
 # Replace missing ISO codes (-99) with None
 world["ISO_A3"] = world["ISO_A3"].replace("-99", None)
-# Merge with refugee data
-merged = world.merge(df, left_on="ISO_A3", right_on="iso_code", how="left")
+world = world.dropna(subset=["ISO_A3"])
+
+# Create a cartesian product of all countries and all years to ensure
+# every country is represented in every animation frame (e.g. with 0 value)
+years_df = pd.DataFrame({"year": sorted(df["year"].unique())})
+grid = world[["ISO_A3", "NAME", "geometry"]].merge(years_df, how="cross")
+
+# Merge with refugee data and sort by year to ensure chronological animation
+merged = grid.merge(df, left_on=["ISO_A3", "year"], right_on=["iso_code", "year"], how="left")
+merged = merged.sort_values("year")
+
 merged["total"] = merged["total"].fillna(0).astype(int)
 merged["refugees"] = merged["refugees"].fillna(0).astype(int)
 merged["asylum_seekers"] = merged["asylum_seekers"].fillna(0).astype(int)

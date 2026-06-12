@@ -1,0 +1,19 @@
+/* Custom CSS to style the title slide elements on a dark background */
+#title-slide,
+#title-slide h1,
+#title-slide h2,
+#title-slide h3,
+#title-slide p,
+#title-slide span,
+#title-slide a,
+#title-slide div,
+#title-slide .title,
+#title-slide .subtitle,
+#title-slide .author,
+#title-slide .quarto-title-author-name,
+#title-slide .quarto-title-author-email,
+#title-slide .quarto-title-affiliation,
+#title-slide .institute,
+#title-slide .date {
+  color: #ffffff !important;
+}

@@ -5,6 +5,7 @@ format:
   clean-revealjs:
     self-contained: true
     html-math-method: mathjax
+    css: custom.css
 author:
   - name: "Professor Robin Lovelace"
     email: r.lovelace@leeds.ac.uk
@@ -14,6 +15,11 @@ date: 2026-06-12
 execute:
   cache: true
 bibliography: references.bib
+title-slide-attributes:
+  data-background-image: files/ukraine_flowmap.gif
+  data-background-size: cover
+  data-background-opacity: "0.5"
+  data-background-color: "#111111"
 ---
 
 ## Introduction

@@ -102,11 +102,15 @@ Thinking carefully about which level of government is best placed to make which 
 
 ## Problem: Stop-start funding for transport
 
+Source: [github.com/itsleeds/uktransportauthorities](https://github.com/itsleeds/uktransportauthorities)
+
 ![](https://github.com/itsleeds/uktransportauthorities/raw/main/atf_allocations.gif){width="100%" style="display:block;margin:0;padding:0;"}
 
 ## Problem: Proprietary 'black box' tools
 
-[@lovelace2021]
+![](images/paste-5.png)
+
+Source: @lovelace2021, source code: [github.com/robinlovelace](https://github.com/Robinlovelace/open-gat)
 
 ## Problem: 'Just build on top of it' (Dependency)
 
@@ -172,7 +176,7 @@ Powerful, free, and adaptable tools for transport analysis.
 
 -   **The R & Python Ecosystems:** Mature libraries for data science, statistics, and visualisation.
 -   **R packages:** `stplanr` for transport planning, `sf` for spatial data, `tmap` for mapping.
--   **Python libraries:** `osmnx` for OpenStreetMap, `geopandas` for spatial data, `grid2demand` for demand modelling.
+-   **Python libraries:** `osmnx` for OpenStreetMap, `geopandas` for spatial data, `grid2demand` for demand modelling, `madina` for urban network analysis [@sevtsukMadinaPythonPackage2025a].
 -   **These tools can be adapted** to local needs and data sources.
 
 ## Pillar 3: Communities of Practice
@@ -189,9 +193,11 @@ The image shows an analysis of travel patterns done entirely with open-source to
 This kind of analysis is reproducible and can be adapted to any city where you have the necessary data.
 :::
 
-## Spatio-temporal visualisation of real OD data
+## Solution 1: Open tools
 
-Spatio-temporal visualisation of real origin-destination data using the `{spanishoddata}` R package and `{mapgl}`. Source: [github.com/robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R)
+Results that can be seen 'de-silo' transport planning
+
+Source: [github.com/robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R)
 
 <video width="80%" controls>
 
@@ -249,25 +255,17 @@ A pilot project is a fantastic way to demonstrate value and build momentum.
 Events like this are a perfect opportunity to build networks that will support a community of practice.
 :::
 
-## Example: Refugee displacement flows from Ukraine
+## What we can learn from Ukraine
 
-An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
+![](images/paste-4.png)
 
-<video width="100%" controls>
-  <source src="files/ukraine_flowmap.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
-::: notes
-This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
-Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
-:::
+Source: [wartranslated](https://x.com/wartranslated/status/2065376241402724815?s=20)
 
 ## Future Directions: New Data & New Challenges
 
 The landscape is always changing.
 
--   **New Data Sources:** Mobile phone data, GPS tracks, sensor data.
+-   **Emerging Data Sources:** Mobile phone data, GPS tracks, sensor data.
 -   **New Challenges:**
     -   **Quality & Bias:** Are these new datasets representative?
     -   **Privacy & Ethics:** How do we use sensitive data responsibly?
@@ -280,17 +278,40 @@ How can we ensure that data-driven decisions are equitable?
 This is a key area where statistical offices have a vital role to play.
 :::
 
-## Reproducible environments
+```{=html}
+<!-- ## Reproducible environments
 
 ![](images/paste-2.png)
 
-Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser
+Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser -->
+```
 
-# Thank you
+## Links {background-image="images/paste-3.png" background-opacity="0.5"}
 
--   **Key message:** Sustainable capacity is built on **open data, open tools, and an open community.**
+-   Sustainable capacity is built on **open data, open tools, and an open community.**
 -   Slides and code: `github.com/robinlovelace/itf-workshop`
 -   Related materials: `tdscience.github.io/tartu26/`
 -   Contact: `r.lovelace@leeds.ac.uk`
 
-## References
+## References {scrollable="true"}
+
+::: {#refs}
+:::
+
+## Appendix: Animated Map of Ukrainian Refugee Flows
+
+## Example: Refugee displacement flows from Ukraine (video)
+
+An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
+
+<video width="100%" controls>
+
+<source src="files/ukraine_flowmap.mp4" type="video/mp4">
+
+Your browser does not support the video tag.
+</video>
+
+::: notes
+This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
+Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
+:::

@@ -1,7 +1,7 @@
 ---
 title: "Ukrainian Refugee Flows — Animated Map"
 format: html
-jupyter: itfworkshop
+jupyter: python3
 number-sections: false
 execute:
   message: false

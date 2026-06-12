@@ -102,6 +102,23 @@ Thinking carefully about which level of government is best placed to make which 
 
 [@lovelace2021]
 
+## Problem: 'Just build on top of it' (Dependency)
+
+Most modelling systems are built on layers of legacy tools, data, and code that nobody fully understands.
+
+![](https://imgs.xkcd.com/comics/dependency.png){width="80%"}
+
+Source: "Dependency" by Randall Munroe: [xkcd.com/2347/](https://xkcd.com/2347/)
+
+::: notes
+This xkcd comic captures a fundamental truth about software — and by extension, transport modelling.
+Most projects are built on top of previous work that may be poorly documented, poorly understood, or fragile.
+
+The temptation is always to just add another layer rather than fix the foundations.
+But building 'on top' of technical debt without addressing it leads to increasingly unstable systems.
+An open, reproducible approach lets us acknowledge and manage this complexity rather than pretending it doesn't exist.
+:::
+
 ## A Solution: Open & Reproducible Workflows
 
 Openness builds trust and empowers collaboration.
@@ -234,6 +251,12 @@ Who is left out of these new datasets?
 How can we ensure that data-driven decisions are equitable?
 This is a key area where statistical offices have a vital role to play.
 :::
+
+## Reproducible environments
+
+![](images/paste-2.png)
+
+Source: [GeoLibre's 'devbox' free code environment](https://codesandbox.io/p/github/opengeos/geolibre), enabling a full GIS in the browser
 
 # Thank you
 

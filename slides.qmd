@@ -247,29 +247,14 @@ Events like this are a perfect opportunity to build networks that will support a
 
 An interactive flow map showing refugee displacement from Ukraine to host countries (2022–2025 data).
 
-```{=html}
-<style>
-  .flowmap-frame {
-    width: 100%;
-    height: clamp(420px, 72vh, 800px);
-    border: none;
-    border-radius: 4px;
-    display: block;
-  }
-</style>
-<iframe
-  src="files/basic_flowmap.html"
-  title="Refugee displacement flows from Ukraine"
-  class="flowmap-frame"
-  allow="geolocation; clipboard-write"
->
-</iframe>
-```
+<video width="100%" controls>
+  <source src="files/ukraine_flowmap.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 ::: notes
-This flow map visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
+This video screencast visualises Ukrainian refugee displacement data from UNHCR, rendered using the `mapgl` R package with a MapLibre WebGL backend.
 Each flow line connects Ukraine to a host country, with line thickness proportional to the number of displaced people recorded.
-The interactive map supports pan, zoom, and hover tooltips for detailed exploration.
 :::
 
 ## Future Directions: New Data & New Challenges

@@ -1,7 +1,7 @@
 project:
   type: website
   output-dir: docs
-  resources: [files/basic_flowmap.html, files/ukraine_flowmap.gif]
+  resources: [files/basic_flowmap.html, files/ukraine_flowmap.gif, files/ukraine_flowmap.mp4]
 
 website:
   title: "ITF Transport Data Workshop — Ukraine"

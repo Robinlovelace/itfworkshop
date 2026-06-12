@@ -153,7 +153,7 @@ When methods are open, they can be scrutinized, validated, and improved by the c
 When educational resources are open access, they lower the barrier for people to learn these vital skills.
 :::
 
-## Pillar 1: Open Data & Standards
+## Solution 1: Open Data & Standards
 
 Good analysis starts with good data.
 
@@ -170,16 +170,15 @@ Adopting international standards like GTFS is crucial — it makes data interope
 OpenStreetMap is a powerful, free resource for transport network data.
 :::
 
-## Pillar 2: Open Source Tools
+## Solution 2: Open Source Tools
 
 Powerful, free, and adaptable tools for transport analysis.
 
--   **The R & Python Ecosystems:** Mature libraries for data science, statistics, and visualisation.
--   **R packages:** `stplanr` for transport planning, `sf` for spatial data, `tmap` for mapping.
+-   **Python and R Ecosystems:** Mature libraries for data science, statistics, and visualisation.
 -   **Python libraries:** `osmnx` for OpenStreetMap, `geopandas` for spatial data, `grid2demand` for demand modelling, `madina` for urban network analysis [@sevtsukMadinaPythonPackage2025a].
--   **These tools can be adapted** to local needs and data sources.
+-   **These tools can be adapted** to local needs and data sources, and extended
 
-## Pillar 3: Communities of Practice
+## Solution 3: Communities of Practice
 
 Capacity building is not just about tools, it's about people.
 
@@ -193,25 +192,20 @@ The image shows an analysis of travel patterns done entirely with open-source to
 This kind of analysis is reproducible and can be adapted to any city where you have the necessary data.
 :::
 
-## Solution 1: Open tools
+## Solution 4: Openly available results
 
-Results that can be seen 'de-silo' transport planning
+Results that are open access can be seen 'de-silo' transport planning. Skill: web development (or at least collaboration with web developers/AI tools to build web interfaces).
 
 Source: [github.com/robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R)
 
-<video width="80%" controls>
-
-<source src="files/ukraine_flowmap.mp4" type="video/mp4">
-
-Your browser does not support the video tag.
-</video>
+<iframe src="files/basic_flowmap.html" width="100%" height="500px" style="border: none;"></iframe>
 
 ::: notes
 This video demonstrates the kind of interactive, reproducible analysis that open tools enable.
 The data comes from Spain's national mobility survey, accessed through the community-maintained `spanishoddata` package.
 :::
 
-## Case Study: National-Scale Planning (UK)
+<!-- ## Case Study: National-Scale Planning (UK)
 
 From local data to national strategy.
 
@@ -226,7 +220,7 @@ From local data to national strategy.
 This is a real-world example of building capacity at a national level.
 Because the methodology is open, local authorities can understand, trust, and challenge the recommendations.
 This demonstrates how a national body can empower local and regional planners.
-:::
+::: -->
 
 ## Case Study: Open OD Data in Spain
 

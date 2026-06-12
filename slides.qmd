@@ -191,14 +191,14 @@ This kind of analysis is reproducible and can be adapted to any city where you h
 
 ## Spatio-temporal visualisation of real OD data
 
-<video width="100%" controls>
+Spatio-temporal visualisation of real origin-destination data using the `{spanishoddata}` R package and `{mapgl}`. Source: [github.com/robinlovelace/itfworkshop](https://github.com/Robinlovelace/itfworkshop/blob/main/create_flowmap.R)
+
+<video width="80%" controls>
 
 <source src="files/ukraine_flowmap.mp4" type="video/mp4">
 
 Your browser does not support the video tag.
 </video>
-
-Spatio-temporal visualisation of real origin-destination data using the `{spanishoddata}` R package and `{mapgl}`.
 
 ::: notes
 This video demonstrates the kind of interactive, reproducible analysis that open tools enable.
